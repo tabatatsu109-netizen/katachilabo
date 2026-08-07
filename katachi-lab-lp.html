@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カタチラボ | 困りごとを、かたちにする。</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A41;
+    --ink-soft:#3C4A63;
+    --paper:#FAFAF7;
+    --paper-alt:#F1EEE6;
+    --line:#C9C4B8;
+    --line-soft:#DEDACE;
+    --accent:#9A3324;
+    --accent-soft:#C25845;
+    --brass:#A9895E;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Noto Sans JP', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.85;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Noto Serif JP', serif;}
+
+  /* blueprint grid backdrop */
+  .grid-bg{
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,250,247,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .header-inner{
+    max-width:960px; margin:0 auto; padding:16px 24px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    font-family:'Noto Serif JP', serif;
+    font-weight:700; font-size:1.15rem;
+    letter-spacing:0.04em;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .mark{
+    width:10px; height:10px; border:1.5px solid var(--accent);
+    transform:rotate(45deg); display:inline-block;
+  }
+  .nav-cta{
+    font-size:0.82rem; padding:9px 18px;
+    border:1px solid var(--ink); color:var(--ink);
+    text-decoration:none; white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:76px 0 60px;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:0.78rem; letter-spacing:0.18em; color:var(--ink-soft);
+    display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .eyebrow::before{content:''; width:26px; height:1px; background:var(--accent);}
+  .hero h1{
+    font-size:clamp(2.1rem, 6vw, 3.2rem);
+    font-weight:700; line-height:1.5;
+    margin-bottom:26px;
+    letter-spacing:0.02em;
+  }
+  .hero h1 .accent-underline{
+    position:relative; display:inline-block;
+  }
+  .hero h1 .accent-underline::after{
+    content:''; position:absolute; left:0; right:0; bottom:2px; height:9px;
+    background:var(--accent-soft); opacity:0.28; z-index:-1;
+  }
+  .hero p.lead{
+    font-size:1rem; color:var(--ink-soft); max-width:520px; margin-bottom:36px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;}
+  .btn-primary{
+    background:var(--accent); color:#fff; text-decoration:none;
+    padding:14px 30px; font-size:0.9rem; letter-spacing:0.04em;
+    border:1px solid var(--accent);
+    transition:opacity .2s ease;
+  }
+  .btn-primary:hover{opacity:0.85;}
+  .btn-ghost{
+    color:var(--ink); text-decoration:none; padding:14px 22px;
+    font-size:0.9rem; border:1px solid var(--line);
+  }
+
+  /* diagram: 困りごと -> システム, blueprint style */
+  .diagram{
+    border:1px solid var(--line); background:var(--paper);
+    padding:30px 22px 22px;
+    position:relative;
+  }
+  .diagram-label{
+    position:absolute; top:-11px; left:18px; background:var(--paper);
+    padding:0 8px; font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.1em;
+  }
+  .diagram-row{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    flex-wrap:wrap;
+  }
+  .diagram-box{
+    flex:1; min-width:130px; text-align:center;
+    border:1px dashed var(--line); padding:20px 12px;
+    font-size:0.85rem; color:var(--ink-soft);
+  }
+  .diagram-box strong{display:block; font-family:'Noto Serif JP',serif; font-size:1.05rem; color:var(--ink); margin-bottom:4px;}
+  .diagram-arrow{
+    flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:4px;
+    color:var(--accent); font-size:0.7rem; padding:0 6px;
+  }
+  .diagram-arrow .line{width:34px; height:1px; background:var(--accent);}
+
+  /* hanko stamp */
+  .stamp{
+    position:absolute; top:26px; right:0; width:96px; height:96px;
+    border:2.5px solid var(--accent); border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--accent); font-family:'Noto Serif JP', serif; font-weight:700;
+    writing-mode:vertical-rl; font-size:1.15rem; letter-spacing:0.15em;
+    transform:rotate(-6deg) scale(1);
+    opacity:0; animation:stamp-down 0.7s cubic-bezier(.2,1.4,.4,1) 0.4s forwards;
+  }
+  @keyframes stamp-down{
+    0%{opacity:0; transform:rotate(-6deg) scale(2.4);}
+    70%{opacity:1; transform:rotate(-6deg) scale(0.92);}
+    100%{opacity:1; transform:rotate(-6deg) scale(1);}
+  }
+  @media (max-width:640px){ .stamp{display:none;} }
+
+  section{padding:64px 0;}
+  .section-head{margin-bottom:42px;}
+  .section-num{font-size:0.75rem; color:var(--accent); letter-spacing:0.16em; margin-bottom:10px;}
+  .section-title{font-size:1.7rem; font-weight:700;}
+  .section-sub{color:var(--ink-soft); font-size:0.92rem; margin-top:10px; max-width:520px;}
+
+  /* ---------- 特徴 ---------- */
+  .features{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft);
+  }
+  .feature{background:var(--paper); padding:30px 24px;}
+  .feature .fnum{font-family:'Noto Serif JP',serif; font-size:0.8rem; color:var(--brass); margin-bottom:14px;}
+  .feature h3{font-size:1.02rem; margin-bottom:10px; font-weight:600;}
+  .feature p{font-size:0.85rem; color:var(--ink-soft);}
+  @media (max-width:720px){ .features{grid-template-columns:1fr;} }
+
+  /* ---------- 実績 ---------- */
+  .works-list{border-top:1px solid var(--line-soft);}
+  .work-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:20px 0; border-bottom:1px solid var(--line-soft);
+    gap:20px; flex-wrap:wrap;
+  }
+  .work-title{font-family:'Noto Serif JP', serif; font-size:1.02rem; font-weight:600; flex:1; min-width:220px;}
+  .work-desc{color:var(--ink-soft); font-size:0.85rem; flex:2; min-width:260px;}
+  .work-tag{
+    font-size:0.7rem; color:var(--brass); border:1px solid var(--brass);
+    padding:3px 9px; white-space:nowrap; height:fit-content;
+  }
+  .work-demo{
+    display:inline-block; margin-top:8px;
+    font-family:'Noto Sans JP', sans-serif; font-size:0.75rem; font-weight:700;
+    color:var(--accent); text-decoration:none;
+    border:1px solid var(--accent); border-radius:2px; padding:3px 10px;
+    transition:background .2s, color .2s;
+  }
+  .work-demo:hover{background:var(--accent); color:var(--paper);}
+  .work-demo::after{content:" ↗"; font-weight:400;}
+
+  /* ---------- 料金 ---------- */
+  .pricing{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
+  }
+  @media (max-width:820px){ .pricing{grid-template-columns:1fr;} }
+  .plan{
+    border:1px solid var(--line); position:relative; padding:32px 26px 28px;
+    background:var(--paper);
+  }
+  .plan::before, .plan::after{
+    content:''; position:absolute; width:10px; height:10px;
+    border-top:1.5px solid var(--brass); border-left:1.5px solid var(--brass);
+  }
+  .plan::before{top:-1px; left:-1px;}
+  .plan::after{bottom:-1px; right:-1px; border-top:none; border-left:none;
+    border-bottom:1.5px solid var(--brass); border-right:1.5px solid var(--brass);}
+  .plan.featured{border-color:var(--accent);}
+  .plan-tag{font-size:0.72rem; letter-spacing:0.14em; color:var(--ink-soft); margin-bottom:14px;}
+  .plan-name{font-family:'Noto Serif JP', serif; font-size:1.3rem; font-weight:700; margin-bottom:18px;}
+  .plan-price{display:flex; align-items:baseline; gap:6px; margin-bottom:6px;}
+  .plan-price .num{font-size:1.7rem; font-weight:700; font-family:'Noto Serif JP', serif;}
+  .plan-price .unit{font-size:0.78rem; color:var(--ink-soft);}
+  .plan-sub{font-size:0.78rem; color:var(--ink-soft); margin-bottom:22px; padding-bottom:22px; border-bottom:1px solid var(--line-soft);}
+  .plan ul{list-style:none;}
+  .plan li{
+    font-size:0.85rem; padding:9px 0 9px 20px; position:relative; color:var(--ink-soft);
+  }
+  .plan li::before{content:'―'; position:absolute; left:0; color:var(--brass); font-size:0.75rem;}
+  .plan-examples{font-size:0.76rem; color:var(--ink-soft); margin-top:16px; line-height:1.6;}
+
+  /* ---------- 流れ ---------- */
+  .flow{border-top:1px solid var(--line-soft);}
+  .flow-row{
+    display:flex; gap:24px; padding:26px 0; border-bottom:1px solid var(--line-soft);
+    align-items:flex-start;
+  }
+  .flow-num{
+    font-family:'Noto Serif JP', serif; font-size:0.9rem; color:var(--accent);
+    flex:0 0 44px;
+  }
+  .flow-body h3{font-size:1rem; font-weight:600; margin-bottom:6px;}
+  .flow-body p{font-size:0.85rem; color:var(--ink-soft);}
+
+  /* ---------- CTA / footer ---------- */
+  .cta-block{
+    text-align:center; padding:70px 24px; border-top:1px solid var(--line-soft);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .cta-block h2{font-size:1.5rem; margin-bottom:16px;}
+  .cta-block p{color:var(--ink-soft); font-size:0.9rem; margin-bottom:30px;}
+
+  footer{padding:30px 24px; text-align:center; font-size:0.78rem; color:var(--ink-soft);}
+
+  /* ---------- 診断ウィジェット ---------- */
+  .diagnose{background:var(--paper-alt); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .diag-steps{display:flex; gap:8px; margin-bottom:30px; font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.06em;}
+  .diag-step{display:flex; align-items:center; gap:6px;}
+  .diag-step .dot{width:6px; height:6px; border-radius:50%; background:var(--line); display:inline-block;}
+  .diag-step.active{color:var(--accent);}
+  .diag-step.active .dot{background:var(--accent);}
+  .diag-panel{display:none;}
+  .diag-panel.active{display:block; animation:fade-in 0.35s ease;}
+  @keyframes fade-in{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+
+  .industry-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;
+  }
+  @media (max-width:720px){ .industry-grid{grid-template-columns:repeat(2, 1fr);} }
+  .industry-btn{
+    background:var(--paper); border:1px solid var(--line); padding:16px 10px;
+    font-size:0.85rem; color:var(--ink); cursor:pointer; text-align:center;
+    font-family:'Noto Sans JP', sans-serif; transition:border-color .15s ease, color .15s ease;
+  }
+  .industry-btn:hover{border-color:var(--accent); color:var(--accent);}
+
+  .diag-back{
+    background:none; border:none; color:var(--ink-soft); font-size:0.8rem;
+    cursor:pointer; padding:0; margin-bottom:20px; text-decoration:underline;
+  }
+  .diag-industry-name{font-family:'Noto Serif JP', serif; font-size:1.3rem; margin-bottom:22px;}
+  .pain-list{display:flex; flex-direction:column; gap:10px;}
+  .pain-btn{
+    text-align:left; background:var(--paper); border:1px solid var(--line);
+    padding:16px 18px; font-size:0.88rem; color:var(--ink);
+    cursor:pointer; font-family:'Noto Sans JP', sans-serif;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    transition:border-color .15s ease;
+  }
+  .pain-btn:hover{border-color:var(--accent);}
+  .pain-btn::after{content:'→'; color:var(--brass); flex:0 0 auto;}
+
+  .proposal-card{
+    border:1px solid var(--accent); background:var(--paper); padding:30px 26px; position:relative;
+  }
+  .proposal-card::before, .proposal-card::after{
+    content:''; position:absolute; width:10px; height:10px;
+    border-top:1.5px solid var(--brass); border-left:1.5px solid var(--brass);
+  }
+  .proposal-card::before{top:-1px; left:-1px;}
+  .proposal-card::after{bottom:-1px; right:-1px; border-top:none; border-left:none;
+    border-bottom:1.5px solid var(--brass); border-right:1.5px solid var(--brass);}
+  .proposal-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--accent); margin-bottom:14px;}
+  .proposal-pain{font-size:0.85rem; color:var(--ink-soft); margin-bottom:6px;}
+  .proposal-solution{font-family:'Noto Serif JP', serif; font-size:1.35rem; font-weight:700; margin-bottom:14px;}
+  .proposal-desc{font-size:0.88rem; color:var(--ink-soft); margin-bottom:22px; padding-bottom:22px; border-bottom:1px solid var(--line-soft);}
+  .proposal-plan{display:flex; align-items:center; gap:10px; margin-bottom:26px; font-size:0.85rem;}
+  .proposal-plan .badge{
+    border:1px solid var(--brass); color:var(--brass); font-size:0.72rem;
+    padding:4px 10px; letter-spacing:0.06em;
+  }
+  .proposal-ctas{display:flex; gap:12px; flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo"><span class="mark"></span>カタチラボ</div>
+    <a class="nav-cta" href="#contact">相談する</a>
+  </div>
+</header>
+
+<section class="hero grid-bg">
+  <div class="wrap">
+    <div class="eyebrow">KATACHI LAB / 業種を問わない、小さなシステム開発工房</div>
+    <h1>その「困った」、<br><span class="accent-underline">かたちにします。</span></h1>
+    <p class="lead">
+      現場の困りごとをヒアリングし、必要なだけの小さなシステムに落とし込みます。
+      初期費用は抑えめに、そのぶん月額でずっと伴走します。
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#contact">無料で相談する</a>
+      <a class="btn-ghost" href="#pricing">料金を見る</a>
+    </div>
+
+    <div class="diagram">
+      <span class="diagram-label">CONCEPT DRAWING</span>
+      <span class="stamp">確定</span>
+      <div class="diagram-row">
+        <div class="diagram-box"><strong>困りごと</strong>紙の台帳/口頭確認/手作業の集計</div>
+        <div class="diagram-arrow"><span>ヒアリング→設計</span><span class="line"></span></div>
+        <div class="diagram-box"><strong>システム</strong>ブラウザひとつで完結する仕組み</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">WHY KATACHI LAB</div>
+      <h2 class="section-title">選ばれる理由</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="fnum">01</div>
+        <h3>作った実績で語る</h3>
+        <p>スポーツクラブ運営、配送管理、シフト自動生成など、実際に現場で動いているシステムの実績があります。</p>
+      </div>
+      <div class="feature">
+        <div class="fnum">02</div>
+        <h3>身の丈開発でコスト圧縮</h3>
+        <p>大がかりな開発体制を持たない分、無駄なコストをかけずに必要な機能だけを組み上げます。</p>
+      </div>
+      <div class="feature">
+        <div class="fnum">03</div>
+        <h3>作って終わりにしない</h3>
+        <p>月額サブスクで運用・保守・ちょっとした修正まで継続的に伴走します。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="diagnose">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">DIAGNOSIS</div>
+      <h2 class="section-title">あなたの業種は？</h2>
+      <p class="section-sub">業種を選ぶと、よくある困りごとと解決の方向性を提案します。</p>
+    </div>
+
+    <div class="diag-steps">
+      <span class="diag-step" data-step-indicator="1">STEP 1 <span class="dot"></span></span>
+      <span class="diag-step" data-step-indicator="2">STEP 2 <span class="dot"></span></span>
+      <span class="diag-step" data-step-indicator="3">STEP 3 <span class="dot"></span></span>
+    </div>
+
+    <!-- STEP 1: 業種選択 -->
+    <div class="diag-panel" id="diag-step-1">
+      <div class="industry-grid" id="industry-grid"></div>
+    </div>
+
+    <!-- STEP 2: 困りごと選択 -->
+    <div class="diag-panel" id="diag-step-2">
+      <button class="diag-back" id="back-to-1">← 業種を選び直す</button>
+      <div class="diag-industry-name" id="diag-industry-name"></div>
+      <div class="pain-list" id="pain-list"></div>
+    </div>
+
+    <!-- STEP 3: 提案 -->
+    <div class="diag-panel" id="diag-step-3">
+      <button class="diag-back" id="back-to-2">← 困りごとを選び直す</button>
+      <div class="proposal-card">
+        <div class="proposal-label">PROPOSAL</div>
+        <div class="proposal-pain" id="proposal-pain"></div>
+        <div class="proposal-solution" id="proposal-solution"></div>
+        <div class="proposal-desc" id="proposal-desc"></div>
+        <div class="proposal-plan"><span>目安プラン</span><span class="badge" id="proposal-plan-badge"></span></div>
+        <div class="proposal-ctas">
+          <a class="btn-primary" id="proposal-mailto" href="#contact">この内容で相談する</a>
+          <button class="btn-ghost" id="restart-diag" style="background:none;">他の業種も見る</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const industries = [
+    { name:"スポーツクラブ運営", pains:[
+      { q:"大会の日程調整が毎回大変", solution:"大会・コート自動割り当てシステム", desc:"複数コートの日程をルールに沿って自動で割り当て、ドラッグ&ドロップで微調整もできます。", plan:"スタンダード" },
+      { q:"選手名簿や連絡先の管理がバラバラ", solution:"選手名簿管理システム", desc:"名簿・連絡先・カテゴリをひとつにまとめ、必要な時にすぐ検索できます。", plan:"ライト" },
+      { q:"保護者への連絡が電話・紙", solution:"出欠連絡+お知らせ配信システム", desc:"欠席連絡やお知らせをオンラインで一括配信、電話対応を減らします。", plan:"ライト" }
+    ]},
+    { name:"物流・配送", pains:[
+      { q:"発注が電話・FAXでバラバラ", solution:"オンライン受発注管理システム", desc:"取引先ごとの発注をオンラインで受け付け、集計・配送準備までひとまとめに。", plan:"スタンダード" },
+      { q:"配送ルート決めが属人化している", solution:"配送先・ルート管理システム", desc:"配送先情報を一元管理し、担当者が変わっても迷わない仕組みに。", plan:"スタンダード" },
+      { q:"請求書作成に毎月時間がかかる", solution:"自動集計・請求書発行システム", desc:"注文データから請求書を自動生成、月末の作業時間を大幅に削減します。", plan:"カスタム" }
+    ]},
+    { name:"小売・店舗", pains:[
+      { q:"シフト作成に毎月時間がかかる", solution:"シフト自動生成システム", desc:"パターンを設定するだけで店舗シフトを自動作成、店舗ポータルも用意します。", plan:"スタンダード" },
+      { q:"在庫数が現場任せで欠品が起きる", solution:"簡易在庫管理+発注アラート", desc:"在庫を見える化し、一定数を下回ったら発注のタイミングを知らせます。", plan:"ライト" },
+      { q:"顧客の来店履歴を把握できていない", solution:"顧客管理・ポイントシステム", desc:"来店履歴やポイントを一元管理し、リピーター対応に活かせます。", plan:"スタンダード" }
+    ]},
+    { name:"施設管理", pains:[
+      { q:"予約状況をホワイトボードで管理している", solution:"オンライン予約・稼働管理システム", desc:"予約状況をリアルタイムで共有し、二重予約や確認漏れを防ぎます。", plan:"スタンダード" },
+      { q:"利用実績の集計が手作業", solution:"利用実績自動集計システム", desc:"日々の利用データを自動で集計し、レポート作成の手間を省きます。", plan:"ライト" }
+    ]},
+    { name:"飲食店", pains:[
+      { q:"予約と席・仕入れの情報がバラバラ", solution:"予約受付+仕入れ管理の一体化", desc:"予約状況と仕入れ量の見通しをひとつの画面で確認できるようにします。", plan:"スタンダード" },
+      { q:"常連客の管理ができていない", solution:"顧客台帳・来店履歴管理", desc:"来店回数や好みを記録し、次の接客に活かせる台帳を作ります。", plan:"ライト" }
+    ]},
+    { name:"美容室・サロン", pains:[
+      { q:"顧客カルテが紙で管理しづらい", solution:"来店履歴・施術記録のデジタル化", desc:"施術内容や使用薬剤の履歴をスマホからすぐ確認できるようにします。", plan:"ライト" },
+      { q:"予約がすべて電話対応", solution:"オンライン予約システム", desc:"空き状況をお客様自身で確認・予約できるようにし、電話対応を減らします。", plan:"スタンダード" }
+    ]},
+    { name:"建設・工務店", pains:[
+      { q:"現場写真や報告書がバラバラになる", solution:"現場日報+写真台帳アプリ", desc:"現場ごとの写真と日報をスマホから記録し、あとから検索しやすくします。", plan:"スタンダード" },
+      { q:"見積書作成に時間がかかる", solution:"見積作成支援ツール", desc:"よく使う項目をテンプレート化し、見積作成のスピードを上げます。", plan:"ライト" }
+    ]},
+    { name:"不動産", pains:[
+      { q:"内見予約がすべて電話対応", solution:"オンライン内見予約+物件管理", desc:"物件ごとの空き状況を公開し、内見予約をオンラインで完結させます。", plan:"スタンダード" },
+      { q:"物件情報の更新に手間がかかる", solution:"物件管理データベース", desc:"物件情報を一元管理し、複数媒体への反映を効率化します。", plan:"カスタム" }
+    ]},
+    { name:"医療・介護", pains:[
+      { q:"シフトと申し送りが紙で管理されている", solution:"勤務表+申し送りノートのデジタル化", desc:"勤務表と申し送り事項をひとつの画面で共有し、伝達漏れを防ぎます。", plan:"スタンダード" },
+      { q:"利用者情報の共有に時間がかかる", solution:"利用者情報共有システム", desc:"多職種間で利用者情報をリアルタイムに共有できる仕組みを作ります。", plan:"カスタム" }
+    ]},
+    { name:"士業", pains:[
+      { q:"顧客対応の進捗が属人化している", solution:"案件管理ボード", desc:"案件ごとの進捗をボード形式で見える化し、誰が見ても状況が分かるように。", plan:"ライト" },
+      { q:"契約書のやり取りが紙で発生する", solution:"電子契約・書類管理システム", desc:"署名・書類の授受をオンラインで完結、保管もまとめて行えます。", plan:"スタンダード" }
+    ]},
+    { name:"製造業", pains:[
+      { q:"在庫数が現場任せになっている", solution:"簡易在庫管理+発注アラート", desc:"在庫の増減を記録し、発注タイミングを逃さない仕組みを作ります。", plan:"ライト" },
+      { q:"生産の進捗状況が見えない", solution:"生産管理ダッシュボード", desc:"工程ごとの進捗をリアルタイムで可視化し、遅れにすぐ気づけるようにします。", plan:"カスタム" }
+    ]},
+    { name:"農業・直売所", pains:[
+      { q:"出荷記録をノートで管理している", solution:"出荷・売上記録アプリ", desc:"出荷量や売上をスマホから記録し、集計作業を大幅に減らします。", plan:"ライト" },
+      { q:"直売所の在庫が把握できていない", solution:"販売・在庫管理システム", desc:"商品ごとの在庫と売上をリアルタイムで管理できるようにします。", plan:"スタンダード" }
+    ]},
+    { name:"教育・塾", pains:[
+      { q:"保護者への連絡が電話・紙で発生する", solution:"出欠連絡+お知らせ配信システム", desc:"欠席連絡やお知らせをオンラインで一括配信し、電話対応を減らします。", plan:"ライト" },
+      { q:"生徒の成績・進捗管理がバラバラ", solution:"成績・進捗管理システム", desc:"生徒ごとの成績や進捗をまとめて管理し、面談資料もすぐ作れます。", plan:"スタンダード" }
+    ]},
+    { name:"NPO・地域団体", pains:[
+      { q:"会員管理がExcelでバラバラになっている", solution:"会員名簿+会費管理システム", desc:"会員情報と会費の支払い状況をまとめて管理できるようにします。", plan:"ライト" },
+      { q:"イベント参加者の募集・管理が大変", solution:"イベント募集・管理システム", desc:"参加申込の受付から当日の名簿確認までオンラインで完結させます。", plan:"スタンダード" }
+    ]},
+    { name:"ペット関連", pains:[
+      { q:"予約とカルテを紙で管理している", solution:"予約+ペットカルテ管理システム", desc:"予約状況とペットごとの施術・診療履歴をまとめて管理します。", plan:"スタンダード" },
+      { q:"リピーター管理ができていない", solution:"顧客・来店履歴管理システム", desc:"来店頻度や好みを記録し、次回来店の案内に活かせるようにします。", plan:"ライト" }
+    ]}
+  ];
+
+  const grid = document.getElementById('industry-grid');
+  industries.forEach((ind, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'industry-btn';
+    btn.textContent = ind.name;
+    btn.addEventListener('click', () => showStep2(i));
+    grid.appendChild(btn);
+  });
+
+  function setStep(n){
+    document.querySelectorAll('.diag-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('diag-step-' + n).classList.add('active');
+    document.querySelectorAll('.diag-step').forEach(s => {
+      s.classList.toggle('active', Number(s.dataset.stepIndicator) === n);
+    });
+  }
+
+  function showStep2(indIndex){
+    const ind = industries[indIndex];
+    document.getElementById('diag-industry-name').textContent = ind.name + "の困りごと";
+    const list = document.getElementById('pain-list');
+    list.innerHTML = '';
+    ind.pains.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'pain-btn';
+      btn.innerHTML = '<span>' + p.q + '</span>';
+      btn.addEventListener('click', () => showStep3(ind.name, p));
+      list.appendChild(btn);
+    });
+    setStep(2);
+  }
+
+  function showStep3(indName, pain){
+    document.getElementById('proposal-pain').textContent = indName + " / 「" + pain.q + "」への提案";
+    document.getElementById('proposal-solution').textContent = pain.solution;
+    document.getElementById('proposal-desc').textContent = pain.desc;
+    document.getElementById('proposal-plan-badge').textContent = pain.plan;
+    const mailto = document.getElementById('proposal-mailto');
+    const subject = encodeURIComponent('【カタチラボ】相談: ' + pain.solution);
+    const body = encodeURIComponent(indName + '業で「' + pain.q + '」について相談したいです。\n提案いただいた「' + pain.solution + '」について詳しく聞きたいです。');
+    mailto.href = 'mailto:info@example.com?subject=' + subject + '&body=' + body;
+    setStep(3);
+  }
+
+  document.getElementById('back-to-1').addEventListener('click', () => setStep(1));
+  document.getElementById('back-to-2').addEventListener('click', () => setStep(2));
+  document.getElementById('restart-diag').addEventListener('click', () => setStep(1));
+
+  setStep(1);
+</script>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">WORKS</div>
+      <h2 class="section-title">これまでに形にしたもの</h2>
+      <p class="section-sub">業種を問わず、現場ごとの困りごとに合わせて開発してきました。<br>一部は<strong>操作デモ</strong>で実際の使い勝手をご覧いただけます(お客様の情報は含まず、すべてダミーデータです)。</p>
+    </div>
+    <div class="works-list">
+      <div class="work-row">
+        <div class="work-title">スポーツクラブ運営システム</div>
+        <div class="work-desc">選手名簿・大会マッチメイク・戦術ボードなど、クラブ運営に必要な機能を一式開発</div>
+        <div class="work-tag">スポーツ</div>
+      </div>
+      <div class="work-row">
+        <div class="work-title">配送業務管理システム</div>
+        <div class="work-desc">複数施設からの発注受付から配送管理までをオンライン化</div>
+        <div class="work-tag">物流</div>
+      </div>
+      <div class="work-row">
+        <div class="work-title">シフト自動生成システム</div>
+        <div class="work-desc">パターン設定だけで店舗シフトを自動作成、店舗ポータルも用意</div>
+        <div class="work-tag">店舗運営</div>
+      </div>
+      <div class="work-row">
+        <div class="work-title">施設予約・大会運営システム</div>
+        <div class="work-desc">複数コートの日程を自動割り当て、ドラッグ&ドロップで調整可能</div>
+        <div class="work-tag">施設管理</div>
+      </div>
+      <div class="work-row">
+        <div class="work-title">
+          EC・在庫管理システム
+          <a class="work-demo" href="demo/inventory-sample.html" target="_blank" rel="noopener">画面を見てみる(閲覧専用)</a>
+        </div>
+        <div class="work-desc">商品登録から在庫管理までをまとめて一元化。QRコードで読み取って入出庫、残りが少ないサイズは自動で「要発注」表示。</div>
+        <div class="work-tag">EC</div>
+      </div>
+      <div class="work-row">
+        <div class="work-title">
+          お弁当 FAX発注書 作成ツール
+          <a class="work-demo" href="demo/bento-order-demo.html" target="_blank" rel="noopener">操作デモを見る</a>
+        </div>
+        <div class="work-desc">チームごとの個数・届け先・時間を入力するだけで、そのままFAXできる注文書を自動作成。消費税の計算も自動。</div>
+        <div class="work-tag">スポーツ・飲食</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" class="grid-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">PRICING</div>
+      <h2 class="section-title">料金プラン</h2>
+      <p class="section-sub">作るものの複雑さによって、3段階でご案内しています。まずは相談から、規模に応じてお見積りします。</p>
+    </div>
+    <div class="pricing">
+      <div class="plan">
+        <div class="plan-tag">LIGHT / ライト</div>
+        <div class="plan-name">まずはひとつ</div>
+        <div class="plan-price"><span class="num">3〜5万</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 2,000〜3,000円</div>
+        <ul>
+          <li>単機能の業務ツール</li>
+          <li>名簿・記録・簡易フォームなど</li>
+          <li>短納期で運用開始</li>
+        </ul>
+        <div class="plan-examples">例:名簿管理、記録表、簡易受付フォーム</div>
+      </div>
+      <div class="plan featured">
+        <div class="plan-tag">STANDARD / スタンダード</div>
+        <div class="plan-name">現場を回す</div>
+        <div class="plan-price"><span class="num">8〜15万</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 5,000円前後</div>
+        <ul>
+          <li>複数機能を組み合わせた業務システム</li>
+          <li>予約・受発注・自動割り当てなど</li>
+          <li>クラウド連携・データ保存込み</li>
+        </ul>
+        <div class="plan-examples">例:大会運営システム、予約管理、シフト自動生成</div>
+      </div>
+      <div class="plan">
+        <div class="plan-tag">CUSTOM / カスタム</div>
+        <div class="plan-name">独自に作り込む</div>
+        <div class="plan-price"><span class="num">20万〜</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 1万円〜</div>
+        <ul>
+          <li>独自要件・複雑なロジック</li>
+          <li>3D/リアルタイム処理なども対応</li>
+          <li>継続的な機能追加を前提に設計</li>
+        </ul>
+        <div class="plan-examples">例:3Dシミュレーター、独自業務フロー全般</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">PROCESS</div>
+      <h2 class="section-title">依頼から運用開始まで</h2>
+    </div>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-num">01</div>
+        <div class="flow-body">
+          <h3>ヒアリング</h3>
+          <p>今どんな困りごとがあるか、無料でお聞きします。専門用語は不要です。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">02</div>
+        <div class="flow-body">
+          <h3>設計図</h3>
+          <p>必要な機能とおおよその金額・期間をまとめてご提示します。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">03</div>
+        <div class="flow-body">
+          <h3>開発</h3>
+          <p>実際に動くものを見ながら、必要に応じて調整しつつ形にしていきます。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">04</div>
+        <div class="flow-body">
+          <h3>納品・運用</h3>
+          <p>納品後も月額サブスクの中で保守・改善を継続します。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="cta-block">
+  <div class="wrap">
+    <h2 class="serif">その困りごと、話してみませんか。</h2>
+    <p>初回のご相談・お見積りは無料です。</p>
+    <a class="btn-primary" href="mailto:info@example.com">メールで相談する</a>
+  </div>
+</section>
+
+<footer>
+  カタチラボ &mdash; 困りごとを、かたちにする。
+</footer>
+
+</body>
+</html>
