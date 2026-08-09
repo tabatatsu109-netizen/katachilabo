@@ -304,6 +304,95 @@
     padding:4px 10px; letter-spacing:0.06em;
   }
   .proposal-ctas{display:flex; gap:12px; flex-wrap:wrap;}
+
+  /* ---------- 人件費の試算 ---------- */
+  .cost{background:var(--paper-alt); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .cost-lead{
+    font-family:'Noto Serif JP', serif; font-size:1.5rem; font-weight:700;
+    line-height:1.7; margin-bottom:10px;
+  }
+  .cost-lead .num{color:var(--accent); font-size:1.9rem;}
+  .cost-sub{font-size:0.86rem; color:var(--ink-soft); margin-bottom:30px;}
+
+  .cost-panel{
+    background:var(--paper); border:1px solid var(--line);
+    padding:30px 26px; margin-bottom:22px;
+  }
+  .cost-field{margin-bottom:26px;}
+  .cost-field:last-child{margin-bottom:0;}
+  .cost-field-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    gap:12px; margin-bottom:12px; flex-wrap:wrap;
+  }
+  .cost-label{font-size:0.88rem; font-weight:500;}
+  .cost-value{
+    font-family:'Noto Serif JP', serif; font-size:1.5rem; font-weight:700; color:var(--ink);
+    font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .cost-value small{font-size:0.8rem; font-weight:400; color:var(--ink-soft); margin-left:3px;}
+
+  .cost-range{
+    -webkit-appearance:none; appearance:none; width:100%; height:3px;
+    background:var(--line); outline:none; margin:6px 0 0;
+  }
+  .cost-range::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:24px; height:24px;
+    background:var(--ink); border:3px solid var(--paper); border-radius:50%;
+    cursor:pointer; box-shadow:0 0 0 1px var(--line);
+  }
+  .cost-range::-moz-range-thumb{
+    width:24px; height:24px; background:var(--ink);
+    border:3px solid var(--paper); border-radius:50%; cursor:pointer;
+  }
+  .cost-scale{display:flex; justify-content:space-between; font-size:0.7rem; color:var(--ink-soft); margin-top:8px;}
+
+  .cost-presets{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .cost-preset{
+    border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+    font:inherit; font-size:0.76rem; padding:7px 13px; cursor:pointer;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .cost-preset:hover{border-color:var(--ink); color:var(--ink);}
+  .cost-preset.on{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+
+  .cost-result{
+    background:var(--ink); color:var(--paper-alt);
+    padding:34px 30px; margin-bottom:20px;
+  }
+  .cost-result-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--brass); margin-bottom:14px;}
+  .cost-big{
+    font-family:'Noto Serif JP', serif; font-weight:700; line-height:1.1;
+    font-size:clamp(2.6rem, 8vw, 4.4rem); color:#fff; font-variant-numeric:tabular-nums;
+  }
+  .cost-big span{font-size:0.42em; margin-left:6px; color:var(--paper-alt);}
+  .cost-big-note{font-size:0.85rem; color:#C9C4B8; margin-top:12px; line-height:1.8;}
+
+  .cost-compare{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); background:var(--paper);}
+  .cost-col{padding:24px 22px;}
+  .cost-col + .cost-col{border-left:1px solid var(--line-soft);}
+  .cost-col-head{font-size:0.78rem; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:12px;}
+  .cost-col-num{
+    font-family:'Noto Serif JP', serif; font-size:1.85rem; font-weight:700;
+    font-variant-numeric:tabular-nums; line-height:1.2;
+  }
+  .cost-col-num small{font-size:0.55em; font-weight:400; margin-left:3px;}
+  .cost-col.manual .cost-col-num{color:var(--accent);}
+  .cost-col-desc{font-size:0.76rem; color:var(--ink-soft); margin-top:10px; line-height:1.8;}
+
+  .cost-payback{
+    margin-top:20px; padding:20px 22px; border:1.5px solid var(--accent);
+    background:rgba(154,51,36,0.04); font-size:0.95rem; line-height:1.9;
+  }
+  .cost-payback strong{font-family:'Noto Serif JP', serif; font-size:1.5rem; color:var(--accent); font-variant-numeric:tabular-nums;}
+  .cost-note{font-size:0.72rem; color:var(--ink-soft); margin-top:18px; line-height:1.9;}
+  .cost-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px;}
+
+  @media (max-width:640px){
+    .cost-compare{grid-template-columns:1fr;}
+    .cost-col + .cost-col{border-left:none; border-top:1px solid var(--line-soft);}
+    .cost-panel{padding:24px 18px;}
+    .cost-result{padding:26px 20px;}
+  }
 </style>
 </head>
 <body>
@@ -339,6 +428,184 @@
     </div>
   </div>
 </section>
+
+<section class="cost" id="cost">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">COST CHECK</div>
+      <h2 class="section-title">その作業、いくら払っていますか。</h2>
+      <p class="section-sub">
+        手作業そのものにお金は出ていきませんが、時間は出ていきます。時給に換算すると、いくらになるか。
+        2つ動かすだけで出ます。
+      </p>
+    </div>
+
+    <div class="cost-panel">
+      <div class="cost-field">
+        <div class="cost-field-head">
+          <label class="cost-label" for="cost-hours">その作業に、月あたり何時間かけていますか</label>
+          <span class="cost-value" id="cost-hours-view">20<small>時間</small></span>
+        </div>
+        <input class="cost-range" type="range" id="cost-hours" min="1" max="80" step="1" value="20">
+        <div class="cost-scale"><span>1時間</span><span>80時間</span></div>
+      </div>
+
+      <div class="cost-field">
+        <div class="cost-field-head">
+          <label class="cost-label" for="cost-wage">その作業をしている人の時給</label>
+          <span class="cost-value" id="cost-wage-view">2,000<small>円</small></span>
+        </div>
+        <input class="cost-range" type="range" id="cost-wage" min="1000" max="6000" step="100" value="2000">
+        <div class="cost-scale"><span>1,000円</span><span>6,000円</span></div>
+        <div class="cost-presets" id="cost-presets">
+          <button type="button" class="cost-preset" data-wage="1200">パート・アルバイト</button>
+          <button type="button" class="cost-preset on" data-wage="2000">社員</button>
+          <button type="button" class="cost-preset" data-wage="3500">店長・管理職</button>
+          <button type="button" class="cost-preset" data-wage="5000">経営者</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cost-result">
+      <div class="cost-result-label">ANNUAL COST</div>
+      <div class="cost-big" id="cost-annual">48<span>万円 / 年</span></div>
+      <div class="cost-big-note" id="cost-annual-note">
+        年間240時間。1日8時間で数えると、30日ぶんの人手がこの作業に使われています。
+      </div>
+    </div>
+
+    <div class="cost-compare">
+      <div class="cost-col manual">
+        <div class="cost-col-head">このまま続けた場合(3年)</div>
+        <div class="cost-col-num" id="cost-manual3">144<small>万円</small></div>
+        <div class="cost-col-desc">作業は無くならないので、来年も再来年も同じだけかかります。</div>
+      </div>
+      <div class="cost-col">
+        <div class="cost-col-head">仕組みにした場合(3年)</div>
+        <div class="cost-col-num" id="cost-system3">73<small>万円</small></div>
+        <div class="cost-col-desc">
+          スタンダードプラン(初期12万円＋月額5,000円)＋残る作業の人件費。
+          作業がゼロになる前提では計算していません。
+        </div>
+      </div>
+    </div>
+
+    <div class="cost-payback" id="cost-payback">
+      初期費用は <strong>3</strong> ヶ月で元が取れる計算です。
+      それ以降は、浮いた時間がそのまま利益になります。
+    </div>
+
+    <p class="cost-note" id="cost-note">
+      ※ 試算の前提: システムにしても確認や例外対応は残るため、<strong>作業時間が7割減る</strong>控えめな想定で計算しています。
+      開発費はスタンダードプランの中央値(初期12万円)を使用。実際の金額は作るものによって変わります。
+      ここでの数字は話のきっかけとしてお使いください。正確なお見積りは、ヒアリングのうえ無料でお出しします。
+    </p>
+
+    <div class="cost-ctas">
+      <a class="btn-primary" href="#contact">この時間を減らす相談をする</a>
+      <a class="btn-ghost" href="#pricing">料金プランを見る</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var hours = document.getElementById('cost-hours');
+  var wage  = document.getElementById('cost-wage');
+  var INITIAL = 120000;   // スタンダードの初期費用(中央値)
+  var MONTHLY = 5000;     // 月額
+  var CUT     = 0.7;      // 仕組みにしても作業がゼロにはならない。控えめに7割減で試算する
+  var LIGHT_INITIAL = 40000;  // ライトプランの初期費用(3〜5万の中央)
+  var LIGHT_MONTHLY = 2500;   // ライトプランの月額
+
+  function yen(n){ return Math.round(n).toLocaleString('ja-JP'); }
+
+  /* 円 → 「◯◯万」表記。1万未満はそのまま円で見せる */
+  function man(n){
+    if(n < 10000) return { v: yen(n), unit: '円' };
+    var m = n / 10000;
+    return { v: (m >= 100 ? Math.round(m) : Math.round(m * 10) / 10).toLocaleString('ja-JP'), unit: '万円' };
+  }
+
+  function render(){
+    var h = Number(hours.value);
+    var w = Number(wage.value);
+
+    document.getElementById('cost-hours-view').innerHTML = h + '<small>時間</small>';
+    document.getElementById('cost-wage-view').innerHTML = yen(w) + '<small>円</small>';
+
+    var monthly = h * w;
+    var annual  = monthly * 12;
+    var annualHours = h * 12;
+
+    var a = man(annual);
+    document.getElementById('cost-annual').innerHTML = a.v + '<span>' + a.unit + ' / 年</span>';
+    document.getElementById('cost-annual-note').textContent =
+      '年間' + yen(annualHours) + '時間。1日8時間で数えると、' +
+      Math.round(annualHours / 8) + '日ぶんの人手がこの作業に使われています。';
+
+    var m3 = man(annual * 3);
+    document.getElementById('cost-manual3').innerHTML = m3.v + '<small>' + m3.unit + '</small>';
+
+    /* 仕組みにしても作業はゼロにならない。残る3割の人件費も足して比べる */
+    var remain3 = monthly * (1 - CUT) * 36;
+    var sys3 = INITIAL + MONTHLY * 36 + remain3;
+    var s3 = man(sys3);
+    document.getElementById('cost-system3').innerHTML = s3.v + '<small>' + s3.unit + '</small>';
+
+    /* 回収期間: 初期費用 ÷ (毎月浮く人件費 − 月額) */
+    var saving = monthly * CUT - MONTHLY;
+    var gain3 = annual * 3 - sys3;
+    var box = document.getElementById('cost-payback');
+
+    if(saving <= 0){
+      /* 浮く人件費より月額のほうが大きい。作る意味が薄い */
+      box.innerHTML = 'この作業量だと、浮く人件費が月額(5,000円)に届きません。'
+        + '<strong>いま急いで作る必要はない</strong>かもしれません。'
+        + '他の作業とまとめると見合うことがあるので、その場合はご相談ください。';
+
+    } else if(gain3 <= 0 || Math.ceil(INITIAL / saving) > 36){
+      /* 3年では見合わない。より小さいプランへ正直に誘導する */
+      var lightSave = monthly * CUT - LIGHT_MONTHLY;
+      var lightMonths = lightSave > 0 ? Math.ceil(LIGHT_INITIAL / lightSave) : null;
+      box.innerHTML = 'この作業量では、<strong>スタンダードで作ると3年では見合いません</strong>。'
+        + (lightMonths && lightMonths <= 36
+            ? '単機能の<strong>ライトプラン</strong>(初期3〜5万円・月額2,000〜3,000円)なら約 <strong>'
+              + lightMonths + '</strong> ヶ月で回収できる計算です。そちらをおすすめします。'
+            : 'まずは他の作業とまとめられないか、ご相談ください。');
+
+    } else {
+      var months = Math.ceil(INITIAL / saving);
+      var diff = man(gain3);
+      box.innerHTML = '初期費用は <strong>' + months + '</strong> ヶ月で元が取れる計算です。'
+        + '3年で見ると差は <strong>' + diff.v + diff.unit + '</strong>。'
+        + 'それ以降は、浮いた時間がそのまま利益になります。';
+    }
+  }
+
+  hours.addEventListener('input', render);
+  wage.addEventListener('input', render);
+
+  var presets = document.getElementById('cost-presets');
+  presets.addEventListener('click', function(e){
+    var b = e.target.closest('.cost-preset');
+    if(!b) return;
+    wage.value = b.dataset.wage;
+    presets.querySelectorAll('.cost-preset').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    render();
+  });
+
+  /* スライダーを直接動かしたら、プリセットの選択表示を合わせる */
+  wage.addEventListener('input', function(){
+    presets.querySelectorAll('.cost-preset').forEach(function(x){
+      x.classList.toggle('on', Number(x.dataset.wage) === Number(wage.value));
+    });
+  });
+
+  render();
+})();
+</script>
 
 <section>
   <div class="wrap">
