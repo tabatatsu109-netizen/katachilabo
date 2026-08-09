@@ -443,11 +443,20 @@
     <div class="cost-panel">
       <div class="cost-field">
         <div class="cost-field-head">
-          <label class="cost-label" for="cost-hours">その作業に、月あたり何時間かけていますか</label>
+          <label class="cost-label" for="cost-hours">その作業に、どれくらい時間をかけていますか</label>
           <span class="cost-value" id="cost-hours-view">20<small>時間</small></span>
         </div>
+        <div class="cost-presets" id="cost-units" style="margin:0 0 16px;">
+          <button type="button" class="cost-preset" data-unit="day">1日あたり</button>
+          <button type="button" class="cost-preset" data-unit="week">1週間あたり</button>
+          <button type="button" class="cost-preset on" data-unit="month">1ヶ月あたり</button>
+        </div>
         <input class="cost-range" type="range" id="cost-hours" min="1" max="80" step="1" value="20">
-        <div class="cost-scale"><span>1時間</span><span>80時間</span></div>
+        <div class="cost-scale">
+          <span id="cost-scale-min">1時間</span>
+          <span id="cost-scale-conv">月あたり 20時間</span>
+          <span id="cost-scale-max">80時間</span>
+        </div>
       </div>
 
       <div class="cost-field">
@@ -497,7 +506,8 @@
 
     <p class="cost-note" id="cost-note">
       ※ 試算の前提: システムにしても確認や例外対応は残るため、<strong>作業時間が7割減る</strong>控えめな想定で計算しています。
-      開発費はスタンダードプランの中央値(初期12万円)を使用。実際の金額は作るものによって変わります。
+      開発費はスタンダードプランの中央値(初期12万円)を使用。1日あたりで入力した場合は月20日、
+      1週間あたりの場合は月4週として、少なめに換算しています。実際の金額は作るものによって変わります。
       ここでの数字は話のきっかけとしてお使いください。正確なお見積りは、ヒアリングのうえ無料でお出しします。
     </p>
 
@@ -518,7 +528,40 @@
   var LIGHT_INITIAL = 40000;  // ライトプランの初期費用(3〜5万の中央)
   var LIGHT_MONTHLY = 2500;   // ライトプランの月額
 
+  /* 単位ごとの目盛りと、1ヶ月あたりへの換算率
+     日: 月20日の稼働 / 週: 月4.3週 として計算する */
+  var UNITS = {
+    day:   { min:0.25, max:8,  step:0.25, def:0.5, perMonth:20,  label:'1日' },
+    week:  { min:0.5,  max:40, step:0.5,  def:3,   perMonth:4,   label:'1週間' },
+    month: { min:1,    max:80, step:1,    def:20,  perMonth:1,   label:'1ヶ月' }
+  };
+  var unit = 'month';
+
   function yen(n){ return Math.round(n).toLocaleString('ja-JP'); }
+
+  /* 0.5 → 「30分」、1.5 → 「1時間30分」のように読みやすくする */
+  function hm(h){
+    var total = Math.round(h * 60);
+    var hour = Math.floor(total / 60), min = total % 60;
+    if(hour === 0) return min + '<small>分</small>';
+    if(min === 0)  return hour + '<small>時間</small>';
+    return hour + '<small>時間</small>' + min + '<small>分</small>';
+  }
+  function hmPlain(h){
+    var total = Math.round(h * 60);
+    var hour = Math.floor(total / 60), min = total % 60;
+    if(hour === 0) return min + '分';
+    if(min === 0)  return hour + '時間';
+    return hour + '時間' + min + '分';
+  }
+
+  function applyUnit(u){
+    var c = UNITS[u];
+    unit = u;
+    hours.min = c.min; hours.max = c.max; hours.step = c.step; hours.value = c.def;
+    document.getElementById('cost-scale-min').textContent = hmPlain(c.min);
+    document.getElementById('cost-scale-max').textContent = hmPlain(c.max);
+  }
 
   /* 円 → 「◯◯万」表記。1万未満はそのまま円で見せる */
   function man(n){
@@ -528,11 +571,14 @@
   }
 
   function render(){
-    var h = Number(hours.value);
-    var w = Number(wage.value);
+    var raw = Number(hours.value);
+    var w   = Number(wage.value);
+    var h   = raw * UNITS[unit].perMonth;   // 1ヶ月あたりの時間に揃える
 
-    document.getElementById('cost-hours-view').innerHTML = h + '<small>時間</small>';
+    document.getElementById('cost-hours-view').innerHTML = hm(raw);
     document.getElementById('cost-wage-view').innerHTML = yen(w) + '<small>円</small>';
+    document.getElementById('cost-scale-conv').textContent =
+      unit === 'month' ? '' : '月あたり ' + hmPlain(h);
 
     var monthly = h * w;
     var annual  = monthly * 12;
@@ -542,7 +588,7 @@
     document.getElementById('cost-annual').innerHTML = a.v + '<span>' + a.unit + ' / 年</span>';
     document.getElementById('cost-annual-note').textContent =
       '年間' + yen(annualHours) + '時間。1日8時間で数えると、' +
-      Math.round(annualHours / 8) + '日ぶんの人手がこの作業に使われています。';
+      Math.max(1, Math.round(annualHours / 8)) + '日ぶんの人手がこの作業に使われています。';
 
     var m3 = man(annual * 3);
     document.getElementById('cost-manual3').innerHTML = m3.v + '<small>' + m3.unit + '</small>';
@@ -585,6 +631,16 @@
 
   hours.addEventListener('input', render);
   wage.addEventListener('input', render);
+
+  var units = document.getElementById('cost-units');
+  units.addEventListener('click', function(e){
+    var b = e.target.closest('.cost-preset');
+    if(!b) return;
+    units.querySelectorAll('.cost-preset').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    applyUnit(b.dataset.unit);
+    render();
+  });
 
   var presets = document.getElementById('cost-presets');
   presets.addEventListener('click', function(e){
