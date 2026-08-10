@@ -223,6 +223,45 @@
   .plan li::before{content:'―'; position:absolute; left:0; color:var(--brass); font-size:0.75rem;}
   .plan-examples{font-size:0.76rem; color:var(--ink-soft); margin-top:16px; line-height:1.6;}
 
+  /* ---------- 実例と金額 ---------- */
+  .case-list{border-top:1px solid var(--line);}
+  .case-row{
+    display:grid; grid-template-columns:1fr 190px; gap:24px;
+    padding:26px 0; border-bottom:1px solid var(--line-soft); align-items:start;
+  }
+  .case-main{min-width:0;}
+  .case-title{
+    font-family:'Noto Serif JP', serif; font-size:1.08rem; font-weight:700;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .case-tag{
+    font-size:0.66rem; letter-spacing:0.08em; color:var(--brass);
+    border:1px solid var(--brass); padding:3px 8px; white-space:nowrap;
+  }
+  .case-desc{font-size:0.85rem; color:var(--ink-soft); margin-top:8px; line-height:1.9;}
+  .case-demo{
+    display:inline-block; margin-top:12px; font-size:0.74rem; font-weight:700;
+    color:var(--accent); text-decoration:none; border:1px solid var(--accent);
+    padding:4px 11px; transition:background .2s, color .2s;
+  }
+  .case-demo:hover{background:var(--accent); color:var(--paper);}
+  .case-demo::after{content:" ↗"; font-weight:400;}
+  .case-price{text-align:right;}
+  .case-price .amount{
+    font-family:'Noto Serif JP', serif; font-size:1.32rem; font-weight:700;
+    white-space:nowrap; font-variant-numeric:tabular-nums;
+  }
+  .case-price .amount small{font-size:0.62em; font-weight:400; margin-left:2px;}
+  .case-price .monthly{font-size:0.76rem; color:var(--ink-soft); margin-top:6px;}
+  .case-foot{
+    margin-top:26px; padding:20px 22px; border:1px solid var(--line);
+    background:var(--paper-alt); font-size:0.8rem; color:var(--ink-soft); line-height:1.9;
+  }
+  @media (max-width:640px){
+    .case-row{grid-template-columns:1fr; gap:12px;}
+    .case-price{text-align:left; border-top:1px dotted var(--line); padding-top:12px;}
+  }
+
   /* ---------- 流れ ---------- */
   .flow{border-top:1px solid var(--line-soft);}
   .flow-row{
@@ -945,6 +984,116 @@
         <div class="plan-examples">例:3Dシミュレーター、独自業務フロー全般</div>
       </div>
     </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">CASE &amp; PRICE</div>
+      <h2 class="section-title">実際に作ったものと、そのときの規模感</h2>
+      <p class="section-sub">
+        「これくらいのものだと、いくらか」の目安です。機能の数と作り込みの深さで変わるので、
+        近いものを探してあたりを付けてください。
+      </p>
+    </div>
+
+    <div class="case-list">
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">お弁当 FAX発注書 作成ツール<span class="case-tag">LIGHT</span></div>
+          <p class="case-desc">
+            大会に届けるお弁当の注文を、チームごとに入力するとFAX用紙が出来上がる単機能のツール。
+            個数・単価・消費税の計算と、届け先や時間の記入も自動化。
+          </p>
+          <a class="case-demo" href="demo/bento-order-demo.html" target="_blank" rel="noopener">操作デモを見る</a>
+        </div>
+        <div class="case-price">
+          <div class="amount">3〜5万<small>円</small></div>
+          <div class="monthly">＋ 月額 2,000〜3,000円</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">プリント在庫管理<span class="case-tag">STANDARD</span></div>
+          <p class="case-desc">
+            ユニフォームやプリント資材の在庫を、サイズ別に管理。QRコードを読んで入出庫を記録し、
+            残りが少ないサイズは自動で「要発注」に。バックアップの書き出しにも対応。
+          </p>
+          <a class="case-demo" href="demo/inventory-sample.html" target="_blank" rel="noopener">画面を見てみる</a>
+        </div>
+        <div class="case-price">
+          <div class="amount">8〜15万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000円前後</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">シフト自動生成システム<span class="case-tag">STANDARD</span></div>
+          <p class="case-desc">
+            スタッフの希望と店舗のルールから、ひと月ぶんのシフトを自動で組み立てるシステム。
+            公平性・人員不足・連勤などを自動で点検し、直すべき箇所を指摘します。
+          </p>
+          <a class="case-demo" href="https://tabatatsu109-netizen.github.io/shift-studio/" target="_blank" rel="noopener">実物を触ってみる</a>
+        </div>
+        <div class="case-price">
+          <div class="amount">8〜15万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000円前後</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">配送業務管理システム<span class="case-tag">STANDARD</span></div>
+          <p class="case-desc">
+            複数の施設からの発注をオンラインで受け付け、配送の予定と実績までをまとめて管理。
+            紙と電話でやりとりしていた部分を、画面ひとつに集約しました。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">8〜15万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000円前後</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">施設予約・大会運営システム<span class="case-tag">STANDARD 〜 CUSTOM</span></div>
+          <p class="case-desc">
+            複数コートの試合日程を自動で割り当て、ドラッグ&amp;ドロップで調整できる仕組み。
+            対戦の組み方や会場の条件が複雑になるほど、作り込みが必要になります。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">15〜25万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000〜10,000円</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">3D戦術ボード<span class="case-tag">CUSTOM</span></div>
+          <p class="case-desc">
+            選手の配置や動きを3Dで表示し、その場で動かしながら共有できるツール。
+            3D表示やリアルタイムの操作が入ると、この価格帯になります。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">20万<small>円〜</small></div>
+          <div class="monthly">＋ 月額 1万円〜</div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="case-foot">
+      金額は、上の料金プランに当てはめた目安です。同じ「在庫管理」でも、扱う品目の数や
+      既存のやり方によって変わります。<strong>近いものが見つからない場合ほど、一度ご相談ください。</strong>
+      ヒアリングのうえ、必要な機能を絞ってからお見積りをお出しします（相談・見積りは無料です）。
+    </p>
   </div>
 </section>
 
