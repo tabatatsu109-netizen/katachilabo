@@ -170,29 +170,6 @@
   .feature p{font-size:0.85rem; color:var(--ink-soft);}
   @media (max-width:720px){ .features{grid-template-columns:1fr;} }
 
-  /* ---------- 実績 ---------- */
-  .works-list{border-top:1px solid var(--line-soft);}
-  .work-row{
-    display:flex; justify-content:space-between; align-items:baseline;
-    padding:20px 0; border-bottom:1px solid var(--line-soft);
-    gap:20px; flex-wrap:wrap;
-  }
-  .work-title{font-family:'Noto Serif JP', serif; font-size:1.02rem; font-weight:600; flex:1; min-width:220px;}
-  .work-desc{color:var(--ink-soft); font-size:0.85rem; flex:2; min-width:260px;}
-  .work-tag{
-    font-size:0.7rem; color:var(--brass); border:1px solid var(--brass);
-    padding:3px 9px; white-space:nowrap; height:fit-content;
-  }
-  .work-demo{
-    display:inline-block; margin-top:8px;
-    font-family:'Noto Sans JP', sans-serif; font-size:0.75rem; font-weight:700;
-    color:var(--accent); text-decoration:none;
-    border:1px solid var(--accent); border-radius:2px; padding:3px 10px;
-    transition:background .2s, color .2s;
-  }
-  .work-demo:hover{background:var(--accent); color:var(--paper);}
-  .work-demo::after{content:" ↗"; font-weight:400;}
-
   /* ---------- 料金 ---------- */
   .pricing{
     display:grid; grid-template-columns:repeat(3, 1fr); gap:20px;
@@ -237,6 +214,10 @@
   .case-tag{
     font-size:0.66rem; letter-spacing:0.08em; color:var(--brass);
     border:1px solid var(--brass); padding:3px 8px; white-space:nowrap;
+  }
+  .case-industry{
+    font-size:0.66rem; letter-spacing:0.08em; color:var(--ink-soft);
+    background:var(--paper-alt); padding:3px 8px; white-space:nowrap;
   }
   .case-desc{font-size:0.85rem; color:var(--ink-soft); margin-top:8px; line-height:1.9;}
   .case-demo{
@@ -891,62 +872,6 @@
   setStep(1);
 </script>
 
-<section>
-  <div class="wrap">
-    <div class="section-head">
-      <div class="section-num">WORKS</div>
-      <h2 class="section-title">これまでに形にしたもの</h2>
-      <p class="section-sub">業種を問わず、現場ごとの困りごとに合わせて開発してきました。<br>一部は<strong>操作デモ</strong>で実際の使い勝手をご覧いただけます(お客様の情報は含まず、すべてダミーデータです)。</p>
-    </div>
-    <div class="works-list">
-      <div class="work-row">
-        <div class="work-title">スポーツクラブ運営システム</div>
-        <div class="work-desc">選手名簿・大会マッチメイク・戦術ボードなど、クラブ運営に必要な機能を一式開発</div>
-        <div class="work-tag">スポーツ</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">配送業務管理システム</div>
-        <div class="work-desc">複数施設からの発注受付から配送管理までをオンライン化</div>
-        <div class="work-tag">物流</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">シフト自動生成システム</div>
-        <div class="work-desc">パターン設定だけで店舗シフトを自動作成、店舗ポータルも用意</div>
-        <div class="work-tag">店舗運営</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">施設予約・大会運営システム</div>
-        <div class="work-desc">複数コートの日程を自動割り当て、ドラッグ&ドロップで調整可能</div>
-        <div class="work-tag">施設管理</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">
-          EC・在庫管理システム
-          <a class="work-demo" href="demo/inventory-sample.html" target="_blank" rel="noopener">画面を見てみる(閲覧専用)</a>
-        </div>
-        <div class="work-desc">商品登録から在庫管理までをまとめて一元化。QRコードで読み取って入出庫、残りが少ないサイズは自動で「要発注」表示。</div>
-        <div class="work-tag">EC</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">
-          お弁当 FAX発注書 作成ツール
-          <a class="work-demo" href="demo/bento-order-demo.html" target="_blank" rel="noopener">操作デモを見る</a>
-        </div>
-        <div class="work-desc">チームごとの個数・届け先・時間を入力するだけで、そのままFAXできる注文書を自動作成。消費税の計算も自動。</div>
-        <div class="work-tag">スポーツ・飲食</div>
-      </div>
-      <div class="work-row">
-        <div class="work-title">
-          チームのタスク・案件管理システム
-          <a class="work-demo" href="demo/kore-pv.html" target="_blank" rel="noopener">紹介動画を見る</a>
-        </div>
-        <div class="work-desc">開くと「今、これ。」と次にやることが1つだけ出る。終わると次が出る。案件の進捗、「待ってる」の放置検知、@メンション付きのやりとりまで。</div>
-        <div class="work-tag">社内業務</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <section id="pricing" class="grid-bg">
   <div class="wrap">
     <div class="section-head">
@@ -998,11 +923,14 @@
 <section>
   <div class="wrap">
     <div class="section-head">
-      <div class="section-num">CASE &amp; PRICE</div>
-      <h2 class="section-title">実際に作ったものと、そのときの規模感</h2>
+      <div class="section-num">WORKS &amp; PRICE</div>
+      <h2 class="section-title">これまでに形にしたものと、そのときの金額</h2>
       <p class="section-sub">
-        「これくらいのものだと、いくらか」の目安です。機能の数と作り込みの深さで変わるので、
-        近いものを探してあたりを付けてください。
+        業種を問わず、現場ごとの困りごとに合わせて開発してきました。
+        金額は「これくらいのものだと、いくらか」の目安です。機能の数と作り込みの深さで変わるので、
+        近いものを探してあたりを付けてください。<br>
+        一部は<strong>操作デモ・紹介動画</strong>で実際の使い勝手をご覧いただけます
+        (お客様の情報は含まず、すべてダミーデータです)。
       </p>
     </div>
 
@@ -1010,7 +938,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">お弁当 FAX発注書 作成ツール<span class="case-tag">LIGHT</span></div>
+          <div class="case-title">お弁当 FAX発注書 作成ツール<span class="case-tag">LIGHT</span><span class="case-industry">スポーツ・飲食</span></div>
           <p class="case-desc">
             大会に届けるお弁当の注文を、チームごとに入力するとFAX用紙が出来上がる単機能のツール。
             個数・単価・消費税の計算と、届け先や時間の記入も自動化。
@@ -1025,10 +953,11 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">プリント在庫管理<span class="case-tag">STANDARD</span></div>
+          <div class="case-title">EC・在庫管理システム<span class="case-tag">STANDARD</span><span class="case-industry">EC・物販</span></div>
           <p class="case-desc">
-            ユニフォームやプリント資材の在庫を、サイズ別に管理。QRコードを読んで入出庫を記録し、
-            残りが少ないサイズは自動で「要発注」に。バックアップの書き出しにも対応。
+            ユニフォームやプリント資材の在庫を、商品登録からサイズ別の管理まで一元化。
+            QRコードを読んで入出庫を記録し、残りが少ないサイズは自動で「要発注」に。
+            バックアップの書き出しにも対応。
           </p>
           <a class="case-demo" href="demo/inventory-sample.html" target="_blank" rel="noopener">画面を見てみる</a>
         </div>
@@ -1040,7 +969,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">シフト自動生成システム<span class="case-tag">STANDARD</span></div>
+          <div class="case-title">シフト自動生成システム<span class="case-tag">STANDARD</span><span class="case-industry">店舗運営</span></div>
           <p class="case-desc">
             スタッフの希望と店舗のルールから、ひと月ぶんのシフトを自動で組み立てるシステム。
             公平性・人員不足・連勤などを自動で点検し、直すべき箇所を指摘します。
@@ -1055,7 +984,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">配送業務管理システム<span class="case-tag">STANDARD</span></div>
+          <div class="case-title">配送業務管理システム<span class="case-tag">STANDARD</span><span class="case-industry">物流</span></div>
           <p class="case-desc">
             複数の施設からの発注をオンラインで受け付け、配送の予定と実績までをまとめて管理。
             紙と電話でやりとりしていた部分を、画面ひとつに集約しました。
@@ -1069,7 +998,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">施設予約・大会運営システム<span class="case-tag">STANDARD 〜 CUSTOM</span></div>
+          <div class="case-title">施設予約・大会運営システム<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">施設管理</span></div>
           <p class="case-desc">
             複数コートの試合日程を自動で割り当て、ドラッグ&amp;ドロップで調整できる仕組み。
             対戦の組み方や会場の条件が複雑になるほど、作り込みが必要になります。
@@ -1083,7 +1012,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">チームのタスク・案件管理システム<span class="case-tag">STANDARD 〜 CUSTOM</span></div>
+          <div class="case-title">チームのタスク・案件管理システム<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">社内業務</span></div>
           <p class="case-desc">
             開くと「今、これ。」と次にやることが1つだけ出て、終わると次が出るタスク管理。
             案件ごとの進捗、返事待ちの放置検知、@メンション付きのやりとり、通知まで。
@@ -1099,7 +1028,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">練習試合マッチメーカー<span class="case-tag">STANDARD 〜 CUSTOM</span></div>
+          <div class="case-title">練習試合マッチメーカー<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">スポーツ</span></div>
           <p class="case-desc">
             各クラブから集めた申込を貼り付けると、コート別・時間別の進行表を自動で組み立てるツール。
             連戦や同じ相手との重複を避けて割り当て、チーム別の出番と待ち時間まで出します。
@@ -1114,7 +1043,7 @@
 
       <div class="case-row">
         <div class="case-main">
-          <div class="case-title">3D戦術ボード<span class="case-tag">CUSTOM</span></div>
+          <div class="case-title">3D戦術ボード<span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
           <p class="case-desc">
             選手の配置や動きを3Dで表示し、その場で動かしながら共有できるツール。
             局面を選ぶと22人が原理原則で連動します。3D表示やリアルタイムの操作が入ると、この価格帯になります。
@@ -1124,6 +1053,20 @@
         <div class="case-price">
           <div class="amount">70万<small>円</small></div>
           <div class="monthly">＋ 月額 1万円</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-main">
+          <div class="case-title">スポーツクラブ運営システム<span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
+          <p class="case-desc">
+            選手名簿・大会マッチメイク・戦術ボードなど、クラブ運営に必要な機能を一式で開発した例。
+            必要な機能だけを選んで作ることもできるので、規模は相談しながら決めます。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">お見積り</div>
+          <div class="monthly">機能の数に応じて</div>
         </div>
       </div>
 
