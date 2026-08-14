@@ -157,7 +157,7 @@
   .section-head{margin-bottom:42px;}
   .section-num{font-size:0.75rem; color:var(--accent); letter-spacing:0.16em; margin-bottom:10px;}
   .section-title{font-size:1.7rem; font-weight:700;}
-  .section-sub{color:var(--ink-soft); font-size:0.92rem; margin-top:10px; max-width:520px;}
+  .section-sub{color:var(--ink-soft); font-size:0.92rem; margin-top:10px;}
 
   /* ---------- 特徴 ---------- */
   .features{
@@ -549,7 +549,7 @@
         <div class="cost-col-head">仕組みにした場合(3年)</div>
         <div class="cost-col-num" id="cost-system3">73<small>万円</small></div>
         <div class="cost-col-desc">
-          スタンダードプラン(初期12万円＋月額5,000円)＋残る作業の人件費。
+          スタンダードプラン(初期20万円＋月額7,500円)＋残る作業の人件費。
           作業がゼロになる前提では計算していません。
         </div>
       </div>
@@ -562,7 +562,7 @@
 
     <p class="cost-note" id="cost-note">
       ※ 試算の前提: システムにしても確認や例外対応は残るため、<strong>作業時間が7割減る</strong>控えめな想定で計算しています。
-      開発費はスタンダードプランの中央値(初期12万円)を使用。1日あたりで入力した場合は月20日、
+      開発費はスタンダードプランの中央値(初期20万円)を使用。1日あたりで入力した場合は月20日、
       1週間あたりの場合は月4週として、少なめに換算しています。実際の金額は作るものによって変わります。
       ここでの数字は話のきっかけとしてお使いください。正確なお見積りは、ヒアリングのうえ無料でお出しします。
     </p>
@@ -578,11 +578,11 @@
 (function(){
   var hours = document.getElementById('cost-hours');
   var wage  = document.getElementById('cost-wage');
-  var INITIAL = 120000;   // スタンダードの初期費用(中央値)
-  var MONTHLY = 5000;     // 月額
+  var INITIAL = 200000;   // スタンダードの初期費用(10〜30万の中央)
+  var MONTHLY = 7500;     // 月額(5,000〜10,000円の中央)
   var CUT     = 0.7;      // 仕組みにしても作業がゼロにはならない。控えめに7割減で試算する
-  var LIGHT_INITIAL = 40000;  // ライトプランの初期費用(3〜5万の中央)
-  var LIGHT_MONTHLY = 2500;   // ライトプランの月額
+  var LIGHT_INITIAL = 75000;  // ライトプランの初期費用(5〜10万の中央)
+  var LIGHT_MONTHLY = 4000;   // ライトプランの月額(3,000〜5,000円の中央)
 
   /* 単位ごとの目盛りと、1ヶ月あたりへの換算率
      日: 月20日の稼働 / 週: 月4.3週 として計算する */
@@ -662,7 +662,7 @@
 
     if(saving <= 0){
       /* 浮く人件費より月額のほうが大きい。作る意味が薄い */
-      box.innerHTML = 'この作業量だと、浮く人件費が月額(5,000円)に届きません。'
+      box.innerHTML = 'この作業量だと、浮く人件費が月額(7,500円)に届きません。'
         + '<strong>いま急いで作る必要はない</strong>かもしれません。'
         + '他の作業とまとめると見合うことがあるので、その場合はご相談ください。';
 
@@ -672,7 +672,7 @@
       var lightMonths = lightSave > 0 ? Math.ceil(LIGHT_INITIAL / lightSave) : null;
       box.innerHTML = 'この作業量では、<strong>スタンダードで作ると3年では見合いません</strong>。'
         + (lightMonths && lightMonths <= 36
-            ? '単機能の<strong>ライトプラン</strong>(初期3〜5万円・月額2,000〜3,000円)なら約 <strong>'
+            ? '単機能の<strong>ライトプラン</strong>(初期5〜10万円・月額3,000〜5,000円)なら約 <strong>'
               + lightMonths + '</strong> ヶ月で回収できる計算です。そちらをおすすめします。'
             : 'まずは他の作業とまとめられないか、ご相談ください。');
 
@@ -919,38 +919,38 @@
       <div class="plan">
         <div class="plan-tag">LIGHT / ライト</div>
         <div class="plan-name">まずはひとつ</div>
-        <div class="plan-price"><span class="num">3〜5万</span><span class="unit">円(初期)</span></div>
-        <div class="plan-sub">月額 2,000〜3,000円</div>
+        <div class="plan-price"><span class="num">5〜10万</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 3,000〜5,000円</div>
         <ul>
           <li>単機能の業務ツール</li>
           <li>名簿・記録・簡易フォームなど</li>
           <li>短納期で運用開始</li>
         </ul>
-        <div class="plan-examples">例:名簿管理、記録表、簡易受付フォーム</div>
+        <div class="plan-examples">例:名簿管理、記録表、FAX発注書の作成ツール</div>
       </div>
       <div class="plan featured">
         <div class="plan-tag">STANDARD / スタンダード</div>
         <div class="plan-name">現場を回す</div>
-        <div class="plan-price"><span class="num">8〜15万</span><span class="unit">円(初期)</span></div>
-        <div class="plan-sub">月額 5,000円前後</div>
+        <div class="plan-price"><span class="num">10〜30万</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 5,000〜10,000円</div>
         <ul>
           <li>複数機能を組み合わせた業務システム</li>
           <li>予約・受発注・自動割り当てなど</li>
           <li>クラウド連携・データ保存込み</li>
         </ul>
-        <div class="plan-examples">例:大会運営システム、予約管理、シフト自動生成</div>
+        <div class="plan-examples">例:在庫管理、練習試合マッチメーカー、予約管理</div>
       </div>
       <div class="plan">
         <div class="plan-tag">CUSTOM / カスタム</div>
         <div class="plan-name">独自に作り込む</div>
-        <div class="plan-price"><span class="num">20万〜</span><span class="unit">円(初期)</span></div>
-        <div class="plan-sub">月額 1万円〜</div>
+        <div class="plan-price"><span class="num">30万〜</span><span class="unit">円(初期)</span></div>
+        <div class="plan-sub">月額 10,000円〜</div>
         <ul>
           <li>独自要件・複雑なロジック</li>
           <li>3D/リアルタイム処理なども対応</li>
           <li>継続的な機能追加を前提に設計</li>
         </ul>
-        <div class="plan-examples">例:3Dシミュレーター、独自業務フロー全般</div>
+        <div class="plan-examples">例:シフト自動生成、タスク・案件管理、3Dシミュレーター</div>
       </div>
     </div>
   </div>
@@ -962,11 +962,7 @@
       <div class="section-num">WORKS &amp; PRICE</div>
       <h2 class="section-title">これまでに形にしたものと、そのときの金額</h2>
       <p class="section-sub">
-        業種を問わず、現場ごとの困りごとに合わせて開発してきました。
-        金額は「これくらいのものだと、いくらか」の目安です。機能の数と作り込みの深さで変わるので、
-        近いものを探してあたりを付けてください。<br>
-        一部は<strong>操作デモ・紹介動画</strong>で実際の使い勝手をご覧いただけます
-        (お客様の情報は含まず、すべてダミーデータです)。
+        業種を問わず、現場ごとの困りごとに合わせて開発してきました。金額は「これくらいのものだと、いくらか」の目安です。機能の数と作り込みの深さで変わるので、近いものを探してあたりを付けてください。一部は<strong>操作デモ・紹介動画</strong>で実際の使い勝手をご覧いただけます(お客様の情報は含まず、すべてダミーデータです)。
       </p>
     </div>
 
@@ -986,8 +982,27 @@
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">3〜5万<small>円</small></div>
-          <div class="monthly">＋ 月額 2,000〜3,000円</div>
+          <div class="amount">5〜10万<small>円</small></div>
+          <div class="monthly">＋ 月額 3,000〜5,000円</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <a class="case-shot" href="demo/matchmake-pv.html" target="_blank" rel="noopener">
+          <img src="img/works/matchmake.jpg" alt="練習試合マッチメーカーの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">紹介動画を見る</span>
+        </a>
+        <div class="case-main">
+          <h3 class="case-title">練習試合マッチメーカー</h3>
+          <div class="case-tags"><span class="case-tag">LIGHT 〜 STANDARD</span><span class="case-industry">スポーツ</span></div>
+          <p class="case-desc">
+            各クラブから集めた申込を貼り付けると、コート別・時間別の進行表を自動で組み立てるツール。
+            連戦や同じ相手との重複を避けて割り当て、チーム別の出番と待ち時間まで出します。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">5〜15万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000〜10,000円</div>
         </div>
       </div>
 
@@ -1006,8 +1021,24 @@
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">8〜15万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000円前後</div>
+          <div class="amount">10〜30万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000〜10,000円</div>
+        </div>
+      </div>
+
+      <div class="case-row">
+        <div class="case-shot is-drawing"><span>施設管理</span></div>
+        <div class="case-main">
+          <h3 class="case-title">施設予約・大会運営システム</h3>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">施設管理</span></div>
+          <p class="case-desc">
+            複数コートの試合日程を自動で割り当て、ドラッグ&amp;ドロップで調整できる仕組み。
+            対戦の組み方や会場の条件が複雑になるほど、作り込みが必要になります。
+          </p>
+        </div>
+        <div class="case-price">
+          <div class="amount">30〜50万<small>円</small></div>
+          <div class="monthly">＋ 月額 10,000〜20,000円</div>
         </div>
       </div>
 
@@ -1018,15 +1049,15 @@
         </a>
         <div class="case-main">
           <h3 class="case-title">シフト自動生成システム</h3>
-          <div class="case-tags"><span class="case-tag">STANDARD</span><span class="case-industry">店舗運営</span></div>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">店舗運営</span></div>
           <p class="case-desc">
             スタッフの希望と店舗のルールから、ひと月ぶんのシフトを自動で組み立てるシステム。
             公平性・人員不足・連勤などを自動で点検し、直すべき箇所を指摘します。
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">8〜15万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000円前後</div>
+          <div class="amount">30〜50万<small>円</small></div>
+          <div class="monthly">＋ 月額 5,000〜10,000円</div>
         </div>
       </div>
 
@@ -1034,31 +1065,15 @@
         <div class="case-shot is-drawing"><span>物流</span></div>
         <div class="case-main">
           <h3 class="case-title">配送業務管理システム</h3>
-          <div class="case-tags"><span class="case-tag">STANDARD</span><span class="case-industry">物流</span></div>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">物流</span></div>
           <p class="case-desc">
             複数の施設からの発注をオンラインで受け付け、配送の予定と実績までをまとめて管理。
             紙と電話でやりとりしていた部分を、画面ひとつに集約しました。
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">8〜15万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000円前後</div>
-        </div>
-      </div>
-
-      <div class="case-row">
-        <div class="case-shot is-drawing"><span>施設管理</span></div>
-        <div class="case-main">
-          <h3 class="case-title">施設予約・大会運営システム</h3>
-          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">施設管理</span></div>
-          <p class="case-desc">
-            複数コートの試合日程を自動で割り当て、ドラッグ&amp;ドロップで調整できる仕組み。
-            対戦の組み方や会場の条件が複雑になるほど、作り込みが必要になります。
-          </p>
-        </div>
-        <div class="case-price">
-          <div class="amount">15〜25万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000〜10,000円</div>
+          <div class="amount">40〜60万<small>円</small></div>
+          <div class="monthly">＋ 月額 15,000〜30,000円</div>
         </div>
       </div>
 
@@ -1069,7 +1084,7 @@
         </a>
         <div class="case-main">
           <h3 class="case-title">チームのタスク・案件管理システム</h3>
-          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">社内業務</span></div>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">社内業務</span></div>
           <p class="case-desc">
             開くと「今、これ。」と次にやることが1つだけ出て、終わると次が出るタスク管理。
             案件ごとの進捗、返事待ちの放置検知、@メンション付きのやりとり、通知まで。
@@ -1077,27 +1092,8 @@
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">15〜25万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000〜10,000円</div>
-        </div>
-      </div>
-
-      <div class="case-row">
-        <a class="case-shot" href="demo/matchmake-pv.html" target="_blank" rel="noopener">
-          <img src="img/works/matchmake.jpg" alt="練習試合マッチメーカーの画面" loading="lazy" width="912" height="570">
-          <span class="shot-cta">紹介動画を見る</span>
-        </a>
-        <div class="case-main">
-          <h3 class="case-title">練習試合マッチメーカー</h3>
-          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">スポーツ</span></div>
-          <p class="case-desc">
-            各クラブから集めた申込を貼り付けると、コート別・時間別の進行表を自動で組み立てるツール。
-            連戦や同じ相手との重複を避けて割り当て、チーム別の出番と待ち時間まで出します。
-          </p>
-        </div>
-        <div class="case-price">
-          <div class="amount">15〜25万<small>円</small></div>
-          <div class="monthly">＋ 月額 5,000〜10,000円</div>
+          <div class="amount">40〜60万<small>円</small></div>
+          <div class="monthly">＋ 月額 15,000〜20,000円</div>
         </div>
       </div>
 
@@ -1115,8 +1111,8 @@
           </p>
         </div>
         <div class="case-price">
-          <div class="amount">70万<small>円</small></div>
-          <div class="monthly">＋ 月額 1万円</div>
+          <div class="amount">80〜100万<small>円</small></div>
+          <div class="monthly">＋ 月額 10,000〜30,000円</div>
         </div>
       </div>
 
