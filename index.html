@@ -201,16 +201,57 @@
   .plan-examples{font-size:0.76rem; color:var(--ink-soft); margin-top:16px; line-height:1.6;}
 
   /* ---------- 実例と金額 ---------- */
-  .case-list{border-top:1px solid var(--line);}
+  .case-list{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:26px;
+  }
   .case-row{
-    display:grid; grid-template-columns:1fr 190px; gap:24px;
-    padding:26px 0; border-bottom:1px solid var(--line-soft); align-items:start;
+    border:1px solid var(--line-soft); background:var(--paper);
+    display:flex; flex-direction:column; overflow:hidden;
+    transition:border-color .2s, box-shadow .2s, transform .2s;
   }
-  .case-main{min-width:0;}
+  .case-row:hover{
+    border-color:var(--line); box-shadow:0 10px 30px rgba(27,42,65,0.08);
+    transform:translateY(-2px);
+  }
+
+  /* 画面写真 */
+  .case-shot{
+    position:relative; display:block; aspect-ratio:16/10; overflow:hidden;
+    background:var(--paper-alt); border-bottom:1px solid var(--line-soft);
+    text-decoration:none;
+  }
+  .case-shot img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    transition:transform .45s ease;
+  }
+  .case-row:hover .case-shot img{transform:scale(1.035);}
+  .case-shot .shot-cta{
+    position:absolute; left:0; right:0; bottom:0;
+    background:linear-gradient(to top, rgba(27,42,65,0.86), rgba(27,42,65,0));
+    color:#fff; font-size:0.76rem; font-weight:700;
+    padding:26px 14px 11px; letter-spacing:0.02em;
+  }
+  .case-shot .shot-cta::after{content:" ↗"; font-weight:400;}
+  /* 写真が無いもの: 嘘の画面は出さず、設計図の地で受ける */
+  .case-shot.is-drawing{
+    display:flex; align-items:center; justify-content:center;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+  .case-shot.is-drawing span{
+    font-family:'Noto Serif JP', serif; font-size:0.92rem; color:var(--ink-soft);
+    background:var(--paper); border:1px solid var(--line);
+    padding:9px 18px; letter-spacing:0.08em;
+  }
+
+  .case-main{padding:20px 22px 0; flex:1;}
   .case-title{
-    font-family:'Noto Serif JP', serif; font-size:1.08rem; font-weight:700;
-    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    font-family:'Noto Serif JP', serif; font-size:1.06rem; font-weight:700;
+    line-height:1.6;
   }
+  .case-tags{display:flex; gap:7px; flex-wrap:wrap; margin-top:9px;}
   .case-tag{
     font-size:0.66rem; letter-spacing:0.08em; color:var(--brass);
     border:1px solid var(--brass); padding:3px 8px; white-space:nowrap;
@@ -219,28 +260,23 @@
     font-size:0.66rem; letter-spacing:0.08em; color:var(--ink-soft);
     background:var(--paper-alt); padding:3px 8px; white-space:nowrap;
   }
-  .case-desc{font-size:0.85rem; color:var(--ink-soft); margin-top:8px; line-height:1.9;}
-  .case-demo{
-    display:inline-block; margin-top:12px; font-size:0.74rem; font-weight:700;
-    color:var(--accent); text-decoration:none; border:1px solid var(--accent);
-    padding:4px 11px; transition:background .2s, color .2s;
+  .case-desc{font-size:0.82rem; color:var(--ink-soft); margin-top:12px; line-height:1.9;}
+  .case-price{
+    margin:18px 22px 18px; padding-top:14px; border-top:1px solid var(--line-soft);
+    display:flex; align-items:baseline; justify-content:space-between; gap:10px;
   }
-  .case-demo:hover{background:var(--accent); color:var(--paper);}
-  .case-demo::after{content:" ↗"; font-weight:400;}
-  .case-price{text-align:right;}
   .case-price .amount{
-    font-family:'Noto Serif JP', serif; font-size:1.32rem; font-weight:700;
-    white-space:nowrap; font-variant-numeric:tabular-nums;
+    font-family:'Noto Serif JP', serif; font-size:1.3rem; font-weight:700;
+    white-space:nowrap; font-variant-numeric:tabular-nums; order:2;
   }
   .case-price .amount small{font-size:0.62em; font-weight:400; margin-left:2px;}
-  .case-price .monthly{font-size:0.76rem; color:var(--ink-soft); margin-top:6px;}
+  .case-price .monthly{font-size:0.74rem; color:var(--ink-soft); order:1;}
   .case-foot{
     margin-top:26px; padding:20px 22px; border:1px solid var(--line);
     background:var(--paper-alt); font-size:0.8rem; color:var(--ink-soft); line-height:1.9;
   }
-  @media (max-width:640px){
-    .case-row{grid-template-columns:1fr; gap:12px;}
-    .case-price{text-align:left; border-top:1px dotted var(--line); padding-top:12px;}
+  @media (max-width:760px){
+    .case-list{grid-template-columns:1fr; gap:20px;}
   }
 
   /* ---------- 流れ ---------- */
@@ -937,13 +973,17 @@
     <div class="case-list">
 
       <div class="case-row">
+        <a class="case-shot" href="demo/bento-order-demo.html" target="_blank" rel="noopener">
+          <img src="img/works/bento.jpg" alt="お弁当 FAX発注書 作成ツールの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">操作デモを見る</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">お弁当 FAX発注書 作成ツール<span class="case-tag">LIGHT</span><span class="case-industry">スポーツ・飲食</span></div>
+          <h3 class="case-title">お弁当 FAX発注書 作成ツール</h3>
+          <div class="case-tags"><span class="case-tag">LIGHT</span><span class="case-industry">スポーツ・飲食</span></div>
           <p class="case-desc">
             大会に届けるお弁当の注文を、チームごとに入力するとFAX用紙が出来上がる単機能のツール。
             個数・単価・消費税の計算と、届け先や時間の記入も自動化。
           </p>
-          <a class="case-demo" href="demo/bento-order-demo.html" target="_blank" rel="noopener">操作デモを見る</a>
         </div>
         <div class="case-price">
           <div class="amount">3〜5万<small>円</small></div>
@@ -952,14 +992,18 @@
       </div>
 
       <div class="case-row">
+        <a class="case-shot" href="demo/inventory-sample.html" target="_blank" rel="noopener">
+          <img src="img/works/inventory.jpg" alt="EC・在庫管理システムの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">画面を見てみる</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">EC・在庫管理システム<span class="case-tag">STANDARD</span><span class="case-industry">EC・物販</span></div>
+          <h3 class="case-title">EC・在庫管理システム</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD</span><span class="case-industry">EC・物販</span></div>
           <p class="case-desc">
             ユニフォームやプリント資材の在庫を、商品登録からサイズ別の管理まで一元化。
             QRコードを読んで入出庫を記録し、残りが少ないサイズは自動で「要発注」に。
             バックアップの書き出しにも対応。
           </p>
-          <a class="case-demo" href="demo/inventory-sample.html" target="_blank" rel="noopener">画面を見てみる</a>
         </div>
         <div class="case-price">
           <div class="amount">8〜15万<small>円</small></div>
@@ -968,13 +1012,17 @@
       </div>
 
       <div class="case-row">
+        <a class="case-shot" href="demo/shift-studio-demo.html" target="_blank" rel="noopener">
+          <img src="img/works/shift.jpg" alt="シフト自動生成システムの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">デモ動画を見る</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">シフト自動生成システム<span class="case-tag">STANDARD</span><span class="case-industry">店舗運営</span></div>
+          <h3 class="case-title">シフト自動生成システム</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD</span><span class="case-industry">店舗運営</span></div>
           <p class="case-desc">
             スタッフの希望と店舗のルールから、ひと月ぶんのシフトを自動で組み立てるシステム。
             公平性・人員不足・連勤などを自動で点検し、直すべき箇所を指摘します。
           </p>
-          <a class="case-demo" href="demo/shift-studio-demo.html" target="_blank" rel="noopener">デモ動画を見る</a>
         </div>
         <div class="case-price">
           <div class="amount">8〜15万<small>円</small></div>
@@ -983,8 +1031,10 @@
       </div>
 
       <div class="case-row">
+        <div class="case-shot is-drawing"><span>物流</span></div>
         <div class="case-main">
-          <div class="case-title">配送業務管理システム<span class="case-tag">STANDARD</span><span class="case-industry">物流</span></div>
+          <h3 class="case-title">配送業務管理システム</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD</span><span class="case-industry">物流</span></div>
           <p class="case-desc">
             複数の施設からの発注をオンラインで受け付け、配送の予定と実績までをまとめて管理。
             紙と電話でやりとりしていた部分を、画面ひとつに集約しました。
@@ -997,8 +1047,10 @@
       </div>
 
       <div class="case-row">
+        <div class="case-shot is-drawing"><span>施設管理</span></div>
         <div class="case-main">
-          <div class="case-title">施設予約・大会運営システム<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">施設管理</span></div>
+          <h3 class="case-title">施設予約・大会運営システム</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">施設管理</span></div>
           <p class="case-desc">
             複数コートの試合日程を自動で割り当て、ドラッグ&amp;ドロップで調整できる仕組み。
             対戦の組み方や会場の条件が複雑になるほど、作り込みが必要になります。
@@ -1011,14 +1063,18 @@
       </div>
 
       <div class="case-row">
+        <a class="case-shot" href="demo/kore-pv.html" target="_blank" rel="noopener">
+          <img src="img/works/kore.jpg" alt="チームのタスク・案件管理システムの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">紹介動画を見る</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">チームのタスク・案件管理システム<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">社内業務</span></div>
+          <h3 class="case-title">チームのタスク・案件管理システム</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">社内業務</span></div>
           <p class="case-desc">
             開くと「今、これ。」と次にやることが1つだけ出て、終わると次が出るタスク管理。
             案件ごとの進捗、返事待ちの放置検知、@メンション付きのやりとり、通知まで。
             社員1〜30名の会社を想定し、スマホで使うことを前提に作りました。
           </p>
-          <a class="case-demo" href="demo/kore-pv.html" target="_blank" rel="noopener">紹介動画を見る</a>
         </div>
         <div class="case-price">
           <div class="amount">15〜25万<small>円</small></div>
@@ -1027,13 +1083,17 @@
       </div>
 
       <div class="case-row">
+        <a class="case-shot" href="demo/matchmake-pv.html" target="_blank" rel="noopener">
+          <img src="img/works/matchmake.jpg" alt="練習試合マッチメーカーの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">紹介動画を見る</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">練習試合マッチメーカー<span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">スポーツ</span></div>
+          <h3 class="case-title">練習試合マッチメーカー</h3>
+          <div class="case-tags"><span class="case-tag">STANDARD 〜 CUSTOM</span><span class="case-industry">スポーツ</span></div>
           <p class="case-desc">
             各クラブから集めた申込を貼り付けると、コート別・時間別の進行表を自動で組み立てるツール。
             連戦や同じ相手との重複を避けて割り当て、チーム別の出番と待ち時間まで出します。
           </p>
-          <a class="case-demo" href="demo/matchmake-pv.html" target="_blank" rel="noopener">紹介動画を見る</a>
         </div>
         <div class="case-price">
           <div class="amount">15〜25万<small>円</small></div>
@@ -1042,13 +1102,17 @@
       </div>
 
       <div class="case-row">
+        <a class="case-shot" href="demo/tactics-board-pv.html" target="_blank" rel="noopener">
+          <img src="img/works/tactics.jpg" alt="3D戦術ボードの画面" loading="lazy" width="912" height="570">
+          <span class="shot-cta">PVを見る</span>
+        </a>
         <div class="case-main">
-          <div class="case-title">3D戦術ボード<span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
+          <h3 class="case-title">3D戦術ボード</h3>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
           <p class="case-desc">
             選手の配置や動きを3Dで表示し、その場で動かしながら共有できるツール。
             局面を選ぶと22人が原理原則で連動します。3D表示やリアルタイムの操作が入ると、この価格帯になります。
           </p>
-          <a class="case-demo" href="demo/tactics-board-pv.html" target="_blank" rel="noopener">PVを見る</a>
         </div>
         <div class="case-price">
           <div class="amount">70万<small>円</small></div>
@@ -1057,8 +1121,10 @@
       </div>
 
       <div class="case-row">
+        <div class="case-shot is-drawing"><span>一式で開発</span></div>
         <div class="case-main">
-          <div class="case-title">スポーツクラブ運営システム<span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
+          <h3 class="case-title">スポーツクラブ運営システム</h3>
+          <div class="case-tags"><span class="case-tag">CUSTOM</span><span class="case-industry">スポーツ</span></div>
           <p class="case-desc">
             選手名簿・大会マッチメイク・戦術ボードなど、クラブ運営に必要な機能を一式で開発した例。
             必要な機能だけを選んで作ることもできるので、規模は相談しながら決めます。
