@@ -28,3 +28,9 @@ Thumbs.db
 
 # 業務ツール(内部用・公開しない)
 katachi-lab-business-tool*.html
+
+# 社内向けの覚え書き。公開サイトに置く必要がないもの
+# （元ファイルは ../private-katachilabo/ に移してあります）
+katachi-lab-image-prompts.md
+*-prompts.md
+メモ*.md

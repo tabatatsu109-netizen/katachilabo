@@ -4,7 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>チームのタスク・案件管理システム 紹介動画 | カタチラボ</title>
-<meta name="description" content="開くと「今、これ。」と次にやることが1つだけ出るタスク管理システムの紹介動画です。">
+<meta name="description" content="開くと「今、これ。」と次にやることが1つだけ出て、終わると次が出るタスク管理システム。案件の進捗、返事待ちの放置検知まで。約30秒の紹介動画です。">
+<link rel="canonical" href="https://tabatatsu109-netizen.github.io/katachilabo/demo/kore-pv.html">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="カタチラボ">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="チームのタスク・案件管理システム 紹介動画 | カタチラボ">
+<meta property="og:description" content="開くと「今、これ。」と次にやることが1つだけ出て、終わると次が出るタスク管理システム。案件の進捗、返事待ちの放置検知まで。約30秒の紹介動画です。">
+<meta property="og:url" content="https://tabatatsu109-netizen.github.io/katachilabo/demo/kore-pv.html">
+<meta property="og:image" content="https://tabatatsu109-netizen.github.io/katachilabo/img/og/kore.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#FAFAF7">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -20,6 +38,16 @@
   }
   h1,h2,.serif{font-family:'Noto Serif JP', serif;}
   .wrap{max-width:1100px; margin:0 auto; padding:0 24px;}
+
+  /* キーボードで操作している人に、いまどこを選んでいるか見せる */
+  a:focus-visible, button:focus-visible, video:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px;
+  }
+  /* 動きを減らす設定の人には、色や大きさの変化を出さない */
+  @media (prefers-reduced-motion: reduce){
+    *{transition-duration:0.001ms !important; animation-duration:0.001ms !important;}
+  }
+
 
   header{
     position:sticky; top:0; z-index:50; background:rgba(250,250,247,0.92);
