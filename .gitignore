@@ -25,3 +25,6 @@ capture*.json
 *.log
 .DS_Store
 Thumbs.db
+
+# 業務ツール(内部用・公開しない)
+katachi-lab-business-tool*.html
