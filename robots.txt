@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tabatatsu109-netizen.github.io/katachilabo/sitemap.xml

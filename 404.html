@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ページが見つかりません | カタチラボ</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="/katachilabo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/katachilabo/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/katachilabo/apple-touch-icon.png">
+<meta name="theme-color" content="#FAFAF7">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1B2A41; --ink-soft:#3C4A63; --paper:#FAFAF7;
+    --line:#C9C4B8; --line-soft:#DEDACE; --accent:#9A3324;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Noto Sans JP', -apple-system, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+    color:var(--ink); background:var(--paper); line-height:1.85;
+    min-height:100dvh; display:flex; align-items:center; justify-content:center;
+    padding:40px 24px;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:28px 28px;
+  }
+  .box{
+    max-width:560px; width:100%; background:var(--paper);
+    border:1px solid var(--line); padding:48px 40px;
+  }
+  .logo{
+    font-family:'Noto Serif JP', serif; font-weight:700; font-size:1.05rem;
+    display:flex; align-items:center; gap:10px; margin-bottom:36px;
+    text-decoration:none; color:var(--ink);
+  }
+  .logo .mark{width:10px; height:10px; border:1.5px solid var(--accent); transform:rotate(45deg);}
+  .num{font-size:0.72rem; letter-spacing:0.16em; color:var(--accent); margin-bottom:12px;}
+  h1{font-family:'Noto Serif JP', serif; font-size:1.5rem; font-weight:700; line-height:1.5; margin-bottom:16px;}
+  p{font-size:0.9rem; color:var(--ink-soft); margin-bottom:28px;}
+  .links{display:flex; gap:12px; flex-wrap:wrap;}
+  .btn{display:inline-block; padding:13px 24px; font-size:0.86rem; font-weight:700; text-decoration:none;}
+  .btn-primary{background:var(--accent); color:var(--paper); border:1px solid var(--accent);}
+  .btn-ghost{border:1px solid var(--ink); color:var(--ink);}
+  a:focus-visible{outline:2px solid var(--accent); outline-offset:3px;}
+</style>
+</head>
+<body>
+  <div class="box">
+    <a class="logo" href="/katachilabo/"><span class="mark"></span>カタチラボ</a>
+    <div class="num">404 NOT FOUND</div>
+    <h1>そのページは、<br>見つかりませんでした。</h1>
+    <p>
+      アドレスが変わったか、入力に誤りがあるかもしれません。
+      お探しのものがあれば、トップページからたどれます。
+    </p>
+    <div class="links">
+      <a class="btn btn-primary" href="/katachilabo/">トップページへ</a>
+      <a class="btn btn-ghost" href="/katachilabo/#contact">相談する</a>
+    </div>
+  </div>
+</body>
+</html>
