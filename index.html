@@ -21,7 +21,7 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#FAFAF7">
+<meta name="theme-color" content="#FDFBF7">
 
 <script type="application/ld+json">
 {
@@ -48,15 +48,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1B2A41;
-    --ink-soft:#3C4A63;
-    --paper:#FAFAF7;
-    --paper-alt:#F1EEE6;
-    --line:#C9C4B8;
-    --line-soft:#DEDACE;
-    --accent:#9A3324;
-    --accent-soft:#C25845;
-    --brass:#A9895E;
+    --brand:#FF8A00; --ink:#101828;
+    --ink-soft:#44506A;
+    --paper:#FDFBF7;
+    --paper-alt:#FFF3E4;
+    --line:#D8D2C6;
+    --line-soft:#EAE5DA;
+    --accent:#B05200;
+    --accent-soft:#FF8A00;
+    --brass:#616B7A;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
@@ -106,9 +106,12 @@
     letter-spacing:0.04em;
     display:flex; align-items:center; gap:8px;
   }
+  /* ロゴ画像。img/logo/ にファイルが置かれたら、こちらが表示される。
+     まだ無いあいだは読み込みに失敗するので、下の文字ロゴに切り替わる */
+  .logo img{height:34px; width:auto; display:block;}
   .logo .mark{
-    width:10px; height:10px; border:1.5px solid var(--accent);
-    transform:rotate(45deg); display:inline-block;
+    width:10px; height:10px; border:1.5px solid var(--brand);
+    background:var(--brand); transform:rotate(45deg); display:inline-block;
   }
   .nav-cta{
     font-size:0.82rem; padding:9px 18px;
@@ -125,7 +128,7 @@
     font-size:0.78rem; letter-spacing:0.18em; color:var(--ink-soft);
     display:flex; align-items:center; gap:10px; margin-bottom:22px;
   }
-  .eyebrow::before{content:''; width:26px; height:1px; background:var(--accent);}
+  .eyebrow::before{content:''; width:26px; height:2px; background:var(--brand);}
   .hero h1{
     font-size:clamp(2.1rem, 6vw, 3.2rem);
     font-weight:700; line-height:1.5;
@@ -144,12 +147,12 @@
   }
   .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:56px;}
   .btn-primary{
-    background:var(--accent); color:#fff; text-decoration:none;
+    background:var(--brand); color:var(--ink); text-decoration:none; font-weight:700;
     padding:14px 30px; font-size:0.9rem; letter-spacing:0.04em;
-    border:1px solid var(--accent);
-    transition:opacity .2s ease;
+    border:1px solid var(--brand);
+    transition:background .2s ease;
   }
-  .btn-primary:hover{opacity:0.85;}
+  .btn-primary:hover{background:#F07E00;}
   .btn-ghost{
     color:var(--ink); text-decoration:none; padding:14px 22px;
     font-size:0.9rem; border:1px solid var(--line);
@@ -179,7 +182,7 @@
     flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:4px;
     color:var(--accent); font-size:0.7rem; padding:0 6px;
   }
-  .diagram-arrow .line{width:34px; height:1px; background:var(--accent);}
+  .diagram-arrow .line{width:34px; height:2px; background:var(--brand);}
 
   /* hanko stamp */
   .stamp{
@@ -255,7 +258,7 @@
     transition:border-color .2s, box-shadow .2s, transform .2s;
   }
   .case-row:hover{
-    border-color:var(--line); box-shadow:0 10px 30px rgba(27,42,65,0.08);
+    border-color:var(--line); box-shadow:0 10px 30px rgba(16,24,40,0.08);
     transform:translateY(-2px);
   }
 
@@ -272,7 +275,7 @@
   .case-row:hover .case-shot img{transform:scale(1.035);}
   .case-shot .shot-cta{
     position:absolute; left:0; right:0; bottom:0;
-    background:linear-gradient(to top, rgba(27,42,65,0.86), rgba(27,42,65,0));
+    background:linear-gradient(to top, rgba(16,24,40,0.86), rgba(16,24,40,0));
     color:#fff; font-size:0.76rem; font-weight:700;
     padding:26px 14px 11px; letter-spacing:0.02em;
   }
@@ -353,7 +356,7 @@
   .diag-step{display:flex; align-items:center; gap:6px;}
   .diag-step .dot{width:6px; height:6px; border-radius:50%; background:var(--line); display:inline-block;}
   .diag-step.active{color:var(--accent);}
-  .diag-step.active .dot{background:var(--accent);}
+  .diag-step.active .dot{background:var(--brand);}
   .diag-panel{display:none;}
   .diag-panel.active{display:block; animation:fade-in 0.35s ease;}
   @keyframes fade-in{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
@@ -460,13 +463,13 @@
     background:var(--ink); color:var(--paper-alt);
     padding:34px 30px; margin-bottom:20px;
   }
-  .cost-result-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--brass); margin-bottom:14px;}
+  .cost-result-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--brand); margin-bottom:14px;}
   .cost-big{
     font-family:'Noto Serif JP', serif; font-weight:700; line-height:1.1;
     font-size:clamp(2.6rem, 8vw, 4.4rem); color:#fff; font-variant-numeric:tabular-nums;
   }
   .cost-big span{font-size:0.42em; margin-left:6px; color:var(--paper-alt);}
-  .cost-big-note{font-size:0.85rem; color:#C9C4B8; margin-top:12px; line-height:1.8;}
+  .cost-big-note{font-size:0.85rem; color:var(--line); margin-top:12px; line-height:1.8;}
 
   .cost-compare{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); background:var(--paper);}
   .cost-col{padding:24px 22px;}
@@ -482,7 +485,7 @@
 
   .cost-payback{
     margin-top:20px; padding:20px 22px; border:1.5px solid var(--accent);
-    background:rgba(154,51,36,0.04); font-size:0.95rem; line-height:1.9;
+    background:rgba(255,138,0,0.06); font-size:0.95rem; line-height:1.9;
   }
   .cost-payback strong{font-family:'Noto Serif JP', serif; font-size:1.5rem; color:var(--accent); font-variant-numeric:tabular-nums;}
   .cost-note{font-size:0.72rem; color:var(--ink-soft); margin-top:18px; line-height:1.9;}
@@ -500,7 +503,7 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo"><span class="mark"></span>カタチラボ</div>
+    <div class="logo"><img src="img/logo/logo-yoko.svg" alt="カタチラボ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="logo-text" style="display:none;align-items:center;gap:8px"><span class="mark"></span>カタチラボ</span></div>
     <a class="nav-cta" href="#contact">相談する</a>
   </div>
 </header>

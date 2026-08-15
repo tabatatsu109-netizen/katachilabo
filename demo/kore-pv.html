@@ -21,15 +21,15 @@
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-<meta name="theme-color" content="#FAFAF7">
+<meta name="theme-color" content="#FDFBF7">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1B2A41; --ink-soft:#3C4A63; --paper:#FAFAF7; --paper-alt:#F1EEE6;
-    --line:#C9C4B8; --line-soft:#DEDACE; --accent:#9A3324; --brass:#A9895E;
+    --brand:#FF8A00; --ink:#101828; --ink-soft:#44506A; --paper:#FDFBF7; --paper-alt:#FFF3E4;
+    --line:#D8D2C6; --line-soft:#EAE5DA; --accent:#B05200; --brass:#616B7A;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
@@ -58,7 +58,9 @@
     display:flex; align-items:center; justify-content:space-between; gap:16px;
   }
   .logo{font-family:'Noto Serif JP', serif; font-weight:700; font-size:1.15rem; display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--ink);}
-  .logo .mark{width:10px; height:10px; background:var(--accent); display:inline-block;}
+  .logo img{height:30px; width:auto; display:block;}
+  .logo img{height:30px; width:auto; display:block;}
+  .logo .mark{width:10px; height:10px; background:var(--brand); display:inline-block;}
   .back{font-size:0.82rem; color:var(--ink-soft); text-decoration:none; border-bottom:1px solid var(--line);}
   .back:hover{color:var(--ink); border-color:var(--ink);}
 
@@ -89,8 +91,8 @@
 
   .ctas{display:flex; gap:12px; flex-wrap:wrap; padding-bottom:70px;}
   .btn{display:inline-block; padding:14px 26px; font-size:0.88rem; font-weight:700; text-decoration:none; transition:background .2s, color .2s;}
-  .btn-primary{background:var(--accent); color:var(--paper); border:1px solid var(--accent);}
-  .btn-primary:hover{background:#7d2a1e;}
+  .btn-primary{background:var(--brand); color:var(--ink); font-weight:700; border:1px solid var(--brand);}
+  .btn-primary:hover{background:#F07E00;}
   .btn-ghost{border:1px solid var(--ink); color:var(--ink);}
   .btn-ghost:hover{background:var(--ink); color:var(--paper);}
 
@@ -106,7 +108,7 @@
 
 <header>
   <div class="header-inner">
-    <a class="logo" href="../index.html"><span class="mark"></span>カタチラボ</a>
+    <a class="logo" href="../index.html"><img src="../img/logo/logo-yoko.svg" alt="カタチラボ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="logo-text" style="display:none;align-items:center;gap:8px"><span class="mark"></span>カタチラボ</span></a>
     <a class="back" href="../index.html">← トップに戻る</a>
   </div>
 </header>
