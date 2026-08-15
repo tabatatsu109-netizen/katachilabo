@@ -83,6 +83,38 @@
     *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
   }
 
+  /* ---------- スクロールで浮かび上がる ----------
+     隠す指定は JS が <html> に .js-anim を付けたときだけ効く。
+     JSが動かない環境では、最初からすべて見えている。 */
+  .js-anim .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .js-anim .reveal.shown{opacity:1; transform:none;}
+  /* 並んでいるものは、少しずつ遅らせて出す */
+  .js-anim .reveal[data-delay="1"]{transition-delay:.08s;}
+  .js-anim .reveal[data-delay="2"]{transition-delay:.16s;}
+  .js-anim .reveal[data-delay="3"]{transition-delay:.24s;}
+  .js-anim .reveal[data-delay="4"]{transition-delay:.32s;}
+  .js-anim .reveal[data-delay="5"]{transition-delay:.40s;}
+  @media (prefers-reduced-motion: reduce){
+    .js-anim .reveal{opacity:1 !important; transform:none !important;}
+  }
+  /* 印刷するときは、動きの途中でも全部出す */
+  @media print{
+    .js-anim .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  /* 見出しの下線が、視界に入ってから左へ伸びる */
+  .js-anim .hero h1 .accent-underline::after{
+    transform:scaleX(0); transform-origin:left center;
+    transition:transform .9s cubic-bezier(.16,1,.3,1) .35s;
+  }
+  .js-anim .hero.shown h1 .accent-underline::after{transform:scaleX(1);}
+  @media (prefers-reduced-motion: reduce){
+    .js-anim .hero h1 .accent-underline::after{transform:none !important;}
+  }
+
   /* キーボードで操作している人に、いまどこを選んでいるか見せる */
   a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
     outline:2px solid var(--accent); outline-offset:3px; border-radius:1px;
@@ -1236,6 +1268,113 @@
     <a class="btn-primary" href="mailto:tabatatsu109@gmail.com?subject=%E3%82%AB%E3%82%BF%E3%83%81%E3%83%A9%E3%83%9C%20%E3%81%94%E7%9B%B8%E8%AB%87">メールで相談する</a>
   </div>
 </section>
+
+<script>
+/* ============================================================
+   スクロールに合わせた動き
+
+   考え方:
+   - 中身を隠すのは、この JS が動いたときだけ。
+     JSが止まっている環境では、最初から全部見えている。
+   - 「動きを減らす」設定の人には、いっさい動かさない。
+   - 一度出たら、それきり。行ったり来たりで再生し直さない。
+   ============================================================ */
+(function(){
+  var reduce = window.matchMedia &&
+               window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+
+  document.documentElement.classList.add('js-anim');
+
+  /* 動きを付ける場所。stagger のものは、並び順に少しずつ遅らせる */
+  var GROUPS = [
+    { sel: '.section-head',    stagger: false },
+    { sel: '.diagram',         stagger: false },
+    { sel: '.cost-panel',      stagger: false },
+    { sel: '.cost-result',     stagger: false },
+    { sel: '.cost-col',        stagger: true  },
+    { sel: '.cost-payback',    stagger: false },
+    { sel: '.feature',         stagger: true  },
+    { sel: '.plan',            stagger: true  },
+    { sel: '.case-row',        stagger: true  },
+    { sel: '.case-foot',       stagger: false },
+    { sel: '.flow-row',        stagger: true  },
+    { sel: '.cta-block .wrap', stagger: false }
+  ];
+  var counts = new Map();
+  GROUPS.forEach(function(g){
+    document.querySelectorAll(g.sel).forEach(function(el){
+      el.classList.add('reveal');
+      if (!g.stagger) return;
+      /* 同じ親に並んでいるものを、順にずらす。
+         3つごとに戻すので、2列でも3列でも横一列がそろって出る */
+      var parent = el.parentElement;
+      var n = counts.get(parent) || 0;
+      el.setAttribute('data-delay', String(n % 3));
+      counts.set(parent, n + 1);
+    });
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.classList.add('shown');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* 保険。何かの理由で判定が働かなくても、中身が消えたままにはしない。
+     ページを開いて8秒たったら、残っているものは全部出す */
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.shown)').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 1.5) el.classList.add('shown');
+    });
+  }, 8000);
+
+  /* ヒーローの下線は、読み込み直後に伸ばす */
+  var hero = document.querySelector('.hero');
+  if (hero) requestAnimationFrame(function(){ hero.classList.add('shown'); });
+
+  /* ---- 年間コストの数字を、視界に入ったら数え上げる ---- */
+  var big = document.getElementById('cost-annual');
+  if (big) {
+    var counted = false;
+    /* つまみを動かしたら数え上げはやめる。表示が取り合いにならないように */
+    ['cost-hours', 'cost-wage'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.addEventListener('input', function(){ counted = true; }, { once: true });
+    });
+    var io2 = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (!e.isIntersecting || counted) return;
+        counted = true; io2.disconnect();
+        var span = big.querySelector('span');
+        var unit = span ? span.outerHTML : '';
+        var target = parseFloat((big.textContent || '').replace(/[^0-9.]/g, ''));
+        if (!isFinite(target) || target <= 0) return;
+        var t0 = null, dur = 900;
+        function step(ts){
+          if (t0 === null) t0 = ts;
+          var p = Math.min((ts - t0) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3);
+          var v = target * eased;
+          /* 表示のけたは元の数字に合わせる。48 は 48、7.2 は 7.2 のまま */
+          var shown = target >= 100 ? Math.round(v)
+                    : Math.round(v * 10) / 10;
+          big.innerHTML = shown.toLocaleString('ja-JP') + unit;
+          if (p < 1) requestAnimationFrame(step);
+          else big.innerHTML = target.toLocaleString('ja-JP') + unit;
+        }
+        requestAnimationFrame(step);
+      });
+    }, { threshold: 0.5 });
+    io2.observe(big);
+  }
+})();
+</script>
 
 <footer>
   カタチラボ &mdash; 困りごとを、かたちにする。
