@@ -34,3 +34,7 @@ katachi-lab-business-tool*.html
 katachi-lab-image-prompts.md
 *-prompts.md
 メモ*.md
+
+# ロゴの元データ置き場。公開サイトに出す必要はない
+# （書き出したロゴは img/logo/ に置きます）
+ロゴ/
