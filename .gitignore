@@ -35,6 +35,9 @@ katachi-lab-image-prompts.md
 *-prompts.md
 メモ*.md
 
-# ロゴの元データ置き場。公開サイトに出す必要はない
-# （書き出したロゴは img/logo/ に置きます）
+# ロゴの元データ。公開サイトに出す必要はない
+# （サイトで使うのは img/logo/logo-yoko.png と mark.png だけ）
 ロゴ/
+img/logo/1.png
+img/logo/rogo.png
+img/logo/rogo2.png
