@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://tabatatsu109-netizen.github.io/katachilabo/football/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://tabatatsu109-netizen.github.io/katachilabo/demo/kore-pv.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

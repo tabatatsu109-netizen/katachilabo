@@ -150,6 +150,23 @@
     border:1px solid var(--ink); color:var(--ink);
     text-decoration:none; white-space:nowrap;
   }
+  .header-nav{display:flex; align-items:center; gap:10px;}
+  /* サッカー専用ページへの入口。芝の色にして、本体のオレンジと取り合わないようにする */
+  .nav-football{
+    font-size:0.78rem; padding:9px 14px;
+    border:1px solid #1F5C3A; color:#1F5C3A; background:#EAF1EC;
+    text-decoration:none; white-space:nowrap; letter-spacing:0.04em;
+  }
+  .nav-football:hover{background:#1F5C3A; color:#fff;}
+  /* FOOTBALLへの入口が増えたぶん、狭い画面ではロゴとボタンを詰める。
+     ここを緩めると375pxで横スクロールが出る */
+  @media (max-width:560px){
+    .header-inner{padding:14px 16px;}
+    .header-nav{gap:7px;}
+    .logo img{height:30px;}
+    .nav-football{padding:8px 9px; font-size:0.7rem; letter-spacing:0.02em;}
+    .nav-cta{padding:8px 11px; font-size:0.74rem;}
+  }
 
   /* ---------- HERO ---------- */
   .hero{
@@ -536,7 +553,10 @@
 <header>
   <div class="header-inner">
     <div class="logo"><img src="img/logo/logo-yoko.png" alt="カタチラボ" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span class="logo-text" style="display:none;align-items:center;gap:8px"><span class="mark"></span>カタチラボ</span></div>
-    <a class="nav-cta" href="#contact">相談する</a>
+    <div class="header-nav">
+      <a class="nav-football" href="football/">⚽ FOOTBALL</a>
+      <a class="nav-cta" href="#contact">相談する</a>
+    </div>
   </div>
 </header>
 

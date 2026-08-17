@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>カタチラボ FOOTBALL | サッカーの現場を、もっとシンプルに。</title>
+<meta name="description" content="Excel・LINE・紙・ホワイトボード・バラバラのアプリでやっていた監督とコーチの仕事を、サッカー専用のツールに置き換えます。ホームページ制作(マッチプランナー)、3D戦術ボード、トレーニングマッチ作成、スカウティング、選手コンディション管理。現役ジュニアユース監督が開発。">
+<link rel="canonical" href="https://tabatatsu109-netizen.github.io/katachilabo/football/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="カタチラボ FOOTBALL">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="カタチラボ FOOTBALL | サッカーの現場を、もっとシンプルに。">
+<meta property="og:description" content="Excel、LINE、紙、ホワイトボード。監督とコーチの仕事を、サッカー専用のツール5つに置き換えます。現役ジュニアユース監督が開発。">
+<meta property="og:url" content="https://tabatatsu109-netizen.github.io/katachilabo/football/">
+<meta property="og:image" content="https://tabatatsu109-netizen.github.io/katachilabo/img/og/football.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../favicon-192.png" sizes="192x192" type="image/png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta name="theme-color" content="#FDFBF7">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "カタチラボ FOOTBALL — サッカークラブ向けツール",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "item": { "@type": "SoftwareApplication", "name": "マッチプランナー", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "description": "試合結果を入力するだけでホームページ・お知らせ・戦績が自動で更新されるクラブ運営システムとホームページ制作。" } },
+    { "@type": "ListItem", "position": 2, "item": { "@type": "SoftwareApplication", "name": "3D戦術ボード", "applicationCategory": "SportsApplication", "operatingSystem": "Web", "description": "選手の配置と動きを3Dで表示し、局面を選ぶと22人が原理原則で連動する戦術ボード。" } },
+    { "@type": "ListItem", "position": 3, "item": { "@type": "SoftwareApplication", "name": "トレーニングマッチ作成", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "description": "参加チームの申込を貼り付けると、コート別・時間別の進行表を自動で組み立てるツール。" } },
+    { "@type": "ListItem", "position": 4, "item": { "@type": "SoftwareApplication", "name": "スカウティングシステム GENSEKI XI", "applicationCategory": "SportsApplication", "operatingSystem": "Web", "description": "圏外の会場でも動く、試合中ワンタップ評価と選手カルテ自動生成のスカウティングPWA。" } },
+    { "@type": "ListItem", "position": 5, "item": { "@type": "SoftwareApplication", "name": "選手コンディション管理 FISICA", "applicationCategory": "HealthApplication", "operatingSystem": "Web", "description": "体重・睡眠・食事・疲労を毎日記録し、月ごとの成長カルテを自動生成。監督は全選手をダッシュボードで俯瞰。" } }
+  ]
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* --- カタチラボ本体から継承。ここは触らない --- */
+    --brand:#FF8A00; --ink:#101828;
+    --ink-soft:#44506A;
+    --paper:#FDFBF7;
+    --paper-alt:#FFF3E4;
+    --line:#D8D2C6;
+    --line-soft:#EAE5DA;
+    --accent:#B05200;
+    --accent-soft:#FF8A00;
+    --brass:#616B7A;
+    /* --- FOOTBALL で足した色 --- */
+    --pitch:#1F5C3A;       /* 芝。サービス名・チップ・「これから」側 */
+    --pitch-soft:#EAF1EC;  /* 芝の薄い面 */
+    --pitch-line:#C3D4C8;  /* ピッチのライン */
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Noto Sans JP', sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.85;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Noto Serif JP', serif;}
+  img{max-width:100%;}
+
+  /* 設計図の方眼。本体LPと同じもの */
+  .grid-bg{
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .wrap{max-width:960px; margin:0 auto; padding:0 24px;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  /* ---------- スクロールで浮かび上がる ----------
+     隠す指定は JS が <html> に .js-anim を付けたときだけ効く。
+     JSが動かない環境では、最初からすべて見えている。 */
+  .js-anim .reveal{
+    opacity:0; transform:translateY(18px);
+    transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+  }
+  .js-anim .reveal.shown{opacity:1; transform:none;}
+  .js-anim .reveal[data-delay="1"]{transition-delay:.08s;}
+  .js-anim .reveal[data-delay="2"]{transition-delay:.16s;}
+  .js-anim .reveal[data-delay="3"]{transition-delay:.24s;}
+  @media (prefers-reduced-motion: reduce){
+    .js-anim .reveal{opacity:1 !important; transform:none !important;}
+  }
+  @media print{
+    .js-anim .reveal{opacity:1 !important; transform:none !important;}
+  }
+
+  .js-anim .hero h1 .accent-underline::after{
+    transform:scaleX(0); transform-origin:left center;
+    transition:transform .9s cubic-bezier(.16,1,.3,1) .35s;
+  }
+  .js-anim .hero.shown h1 .accent-underline::after{transform:scaleX(1);}
+  @media (prefers-reduced-motion: reduce){
+    .js-anim .hero h1 .accent-underline::after{transform:none !important;}
+  }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--accent); outline-offset:3px; border-radius:1px;
+  }
+  .cost-range:focus-visible{outline:2px solid var(--accent); outline-offset:6px;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,250,247,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .header-inner{
+    max-width:960px; margin:0 auto; padding:14px 24px;
+    display:flex; align-items:center; justify-content:space-between; gap:12px;
+  }
+  .logo{
+    font-family:'Noto Serif JP', serif;
+    font-weight:700; font-size:1.05rem;
+    letter-spacing:0.04em; color:var(--ink); text-decoration:none;
+    display:flex; align-items:center; gap:9px; line-height:1.3;
+  }
+  .logo .mark{
+    width:10px; height:10px; border:1.5px solid var(--brand);
+    background:var(--brand); transform:rotate(45deg); display:inline-block; flex:0 0 auto;
+  }
+  .logo .fb{
+    font-family:'Noto Sans JP', sans-serif; font-weight:500;
+    font-size:0.66rem; letter-spacing:0.3em;
+    color:var(--pitch); border:1px solid var(--pitch);
+    padding:2px 4px 2px 8px; white-space:nowrap;
+  }
+  .nav-cta{
+    font-size:0.8rem; padding:9px 16px;
+    border:1px solid var(--ink); color:var(--ink);
+    text-decoration:none; white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:70px 0 62px;
+    position:relative; overflow:hidden;
+  }
+  /* ピッチのラインを、設計図の線で薄く敷く */
+  .pitch-bg{
+    position:absolute; inset:0; z-index:0;
+    pointer-events:none; opacity:.85;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .pitch-bg svg{width:120%; height:100%; min-width:900px;}
+  .hero .wrap{position:relative; z-index:1;}
+  .eyebrow{
+    font-size:0.76rem; letter-spacing:0.18em; color:var(--ink-soft);
+    display:flex; align-items:center; gap:10px; margin-bottom:20px;
+  }
+  .eyebrow::before{content:''; width:26px; height:2px; background:var(--brand); flex:0 0 auto;}
+  .hero h1{
+    font-size:clamp(2rem, 6vw, 3.1rem);
+    font-weight:700; line-height:1.5;
+    margin-bottom:24px; letter-spacing:0.02em;
+  }
+  .hero h1 .accent-underline{position:relative; display:inline-block;}
+  .hero h1 .accent-underline::after{
+    content:''; position:absolute; left:0; right:0; bottom:2px; height:9px;
+    background:var(--accent-soft); opacity:0.28; z-index:-1;
+  }
+  .hero p.lead{
+    font-size:1rem; color:var(--ink-soft); max-width:540px; margin-bottom:30px;
+  }
+  .hero-ctas{display:flex; gap:14px; flex-wrap:wrap; margin-bottom:34px;}
+  .btn-primary{
+    background:var(--brand); color:var(--ink); text-decoration:none; font-weight:700;
+    padding:14px 30px; font-size:0.9rem; letter-spacing:0.04em;
+    border:1px solid var(--brand); transition:background .2s ease;
+    display:inline-block; text-align:center;
+  }
+  .btn-primary:hover{background:#F07E00;}
+  .btn-ghost{
+    color:var(--ink); text-decoration:none; padding:14px 22px;
+    font-size:0.9rem; border:1px solid var(--line);
+    display:inline-block; text-align:center;
+  }
+  .btn-ghost:hover{border-color:var(--ink);}
+
+  /* 作った人のバッジ。このLPで一番の差別化なので、ヒーローに置く */
+  .built-badge{
+    display:inline-flex; align-items:center; gap:12px; flex-wrap:wrap;
+    border:1px solid var(--pitch); background:var(--pitch-soft);
+    padding:11px 16px; font-size:0.82rem; color:var(--pitch);
+  }
+  .built-badge .tag{
+    font-size:0.64rem; letter-spacing:0.16em; font-weight:700;
+    background:var(--pitch); color:#fff; padding:3px 8px; white-space:nowrap;
+  }
+
+  section{padding:64px 0;}
+  .section-head{margin-bottom:40px;}
+  .section-num{font-size:0.74rem; color:var(--accent); letter-spacing:0.16em; margin-bottom:10px;}
+  .section-title{font-size:1.7rem; font-weight:700; line-height:1.6;}
+  .section-sub{color:var(--ink-soft); font-size:0.92rem; margin-top:10px;}
+
+  /* ---------- 置き換え表 ---------- */
+  .swap{border:1px solid var(--line); background:var(--paper);}
+  .swap-head{
+    display:grid; grid-template-columns:1fr 44px 1fr;
+    border-bottom:1px solid var(--line);
+    font-size:0.72rem; letter-spacing:0.14em; color:var(--ink-soft);
+    background:var(--paper-alt);
+  }
+  .swap-head span{padding:11px 18px;}
+  .swap-head span:last-child{color:var(--pitch);}
+  .swap-row{
+    display:grid; grid-template-columns:1fr 44px 1fr; align-items:center;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .swap-row:last-child{border-bottom:none;}
+  .swap-old{
+    padding:16px 18px; font-size:0.88rem; color:var(--ink-soft);
+    text-decoration:line-through; text-decoration-color:var(--line);
+  }
+  .swap-arrow{
+    display:flex; align-items:center; justify-content:center;
+    color:var(--brand); font-size:0.9rem; align-self:stretch;
+    border-left:1px solid var(--line-soft); border-right:1px solid var(--line-soft);
+  }
+  .swap-arrow::before{content:'→';}
+  .swap-new{
+    padding:16px 18px; font-size:0.9rem; color:var(--pitch); font-weight:700;
+    background:var(--pitch-soft);
+  }
+  /* 幅が狭いときは、左右2列をやめて「上が今まで / 下がこれから」に積む。
+     矢印も横向きのままだと意味が通らないので、下向きに差し替える */
+  @media (max-width:600px){
+    .swap-head{display:none;}
+    .swap-row{grid-template-columns:1fr; border-bottom:8px solid var(--paper-alt);}
+    .swap-row:last-child{border-bottom:none;}
+    .swap-old{padding:14px 16px 4px; font-size:0.84rem;}
+    .swap-arrow{
+      border:none; justify-content:flex-start; padding:0 16px; height:18px;
+      font-size:0.8rem; align-self:auto;
+    }
+    .swap-arrow::before{content:'↓';}
+    .swap-new{padding:11px 16px 15px;}
+  }
+
+  /* ---------- 監督の一週間 ---------- */
+  .week-sec{background:var(--pitch-soft); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .week{position:relative; padding-left:0;}
+  .week-row{
+    display:grid; grid-template-columns:76px 1fr; gap:18px;
+    padding:0 0 4px;
+  }
+  .week-day{
+    position:relative; padding:18px 0 22px;
+    text-align:center;
+  }
+  /* 曜日をつなぐ縦のレール */
+  .week-day::before{
+    content:''; position:absolute; left:50%; top:0; bottom:0;
+    width:1px; background:var(--pitch-line); transform:translateX(-50%);
+  }
+  .week-row:first-child .week-day::before{top:26px;}
+  .week-row:last-child .week-day::before{bottom:auto; height:26px;}
+  .week-day .d{
+    position:relative; z-index:1;
+    display:inline-flex; flex-direction:column; align-items:center; justify-content:center;
+    width:52px; height:52px; border-radius:50%;
+    background:var(--paper); border:1px solid var(--pitch-line);
+    font-family:'Noto Serif JP', serif; font-weight:700; font-size:1.05rem; color:var(--pitch);
+    line-height:1;
+  }
+  .week-day .d small{font-family:'Noto Sans JP',sans-serif; font-size:0.52rem; letter-spacing:0.1em; font-weight:400; color:var(--ink-soft); margin-top:3px;}
+  .week-row.is-match .week-day .d{background:var(--pitch); border-color:var(--pitch); color:#fff;}
+  .week-row.is-match .week-day .d small{color:rgba(255,255,255,0.75);}
+  .week-body{padding:18px 0 22px;}
+  .week-act{font-size:0.94rem; font-weight:500; line-height:1.7;}
+  .week-note{font-size:0.8rem; color:var(--ink-soft); margin-top:5px;}
+  .week-chip{
+    display:inline-flex; align-items:center; gap:6px; margin-top:11px;
+    background:var(--paper); border:1px solid var(--pitch); color:var(--pitch);
+    font-size:0.78rem; font-weight:700; padding:6px 13px; text-decoration:none;
+    transition:background .15s ease, color .15s ease;
+  }
+  .week-chip::before{content:''; width:6px; height:6px; background:var(--pitch); transform:rotate(45deg); flex:0 0 auto;}
+  .week-chip:hover{background:var(--pitch); color:#fff;}
+  .week-chip:hover::before{background:#fff;}
+  .week-foot{
+    margin-top:30px; padding:22px 24px; background:var(--paper);
+    border:1px solid var(--pitch); font-size:0.9rem; line-height:1.9;
+  }
+  .week-foot strong{color:var(--pitch);}
+  @media (max-width:560px){
+    .week-row{grid-template-columns:56px 1fr; gap:14px;}
+    .week-day .d{width:44px; height:44px; font-size:0.95rem;}
+  }
+
+  /* ---------- サービス5枚 ---------- */
+  .svc-list{display:flex; flex-direction:column; gap:24px;}
+  .svc{
+    border:1px solid var(--line); background:var(--paper);
+    padding:30px 28px 26px; position:relative;
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .svc:hover{border-color:var(--pitch); box-shadow:0 10px 30px rgba(16,24,40,0.07);}
+  .svc-no{
+    position:absolute; top:22px; right:24px;
+    font-family:'Noto Serif JP', serif; font-size:2.4rem; font-weight:700;
+    color:var(--line-soft); line-height:1;
+  }
+  .svc-name{
+    font-size:1.35rem; font-weight:700; color:var(--pitch);
+    line-height:1.5; padding-right:56px;
+  }
+  .svc-sub{
+    display:block; font-family:'Noto Sans JP',sans-serif; font-weight:400;
+    font-size:0.72rem; letter-spacing:0.14em; color:var(--ink-soft); margin-top:5px;
+  }
+  .svc-for{
+    display:inline-block; margin-top:10px;
+    font-size:0.68rem; letter-spacing:0.08em; color:var(--brass);
+    border:1px solid var(--brass); padding:3px 9px;
+  }
+  .svc-catch{
+    font-family:'Noto Serif JP', serif; font-size:1.1rem; font-weight:600;
+    line-height:1.8; margin:18px 0 20px;
+  }
+  .svc-kill{
+    background:var(--paper-alt); border-left:3px solid var(--brand);
+    padding:14px 16px; font-size:0.84rem; margin-bottom:20px;
+  }
+  .svc-kill-label{
+    display:block; font-size:0.68rem; letter-spacing:0.12em;
+    color:var(--accent); font-weight:700; margin-bottom:5px;
+  }
+  .svc-kill-items{color:var(--ink-soft); text-decoration:line-through; text-decoration-color:var(--line);}
+  .svc-can{list-style:none; margin-bottom:24px;}
+  .svc-can li{
+    font-size:0.87rem; color:var(--ink-soft); line-height:1.85;
+    padding:6px 0 6px 20px; position:relative;
+  }
+  .svc-can li::before{
+    content:''; position:absolute; left:0; top:15px;
+    width:7px; height:7px; border:1.5px solid var(--pitch); transform:rotate(45deg);
+  }
+  .svc-foot{
+    border-top:1px solid var(--line-soft); padding-top:20px;
+    display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap;
+  }
+  .svc-price .amount{
+    font-family:'Noto Serif JP', serif; font-size:1.3rem; font-weight:700;
+    font-variant-numeric:tabular-nums; display:block; line-height:1.4;
+  }
+  .svc-price .amount small{font-size:0.6em; font-weight:400; margin-left:2px;}
+  .svc-price .monthly{font-size:0.76rem; color:var(--ink-soft);}
+  .svc-ctas{display:flex; gap:10px; flex-wrap:wrap;}
+  .btn-sm{
+    font-size:0.8rem; padding:10px 18px; text-decoration:none;
+    background:var(--pitch); color:#fff; border:1px solid var(--pitch); white-space:nowrap;
+    transition:opacity .2s ease;
+  }
+  .btn-sm:hover{opacity:.85;}
+  .btn-sm.ghost{background:transparent; color:var(--ink); border-color:var(--line);}
+  .btn-sm.ghost:hover{border-color:var(--ink); opacity:1;}
+  .btn-sm.soon{background:transparent; color:var(--brass); border-style:dashed; border-color:var(--brass); cursor:default;}
+  .btn-sm.soon:hover{opacity:1;}
+  @media (max-width:520px){
+    .svc{padding:26px 20px 22px;}
+    .svc-no{font-size:1.8rem; top:20px; right:18px;}
+    .svc-name{padding-right:42px; font-size:1.2rem;}
+    .svc-ctas .btn-sm{flex:1 1 auto; text-align:center;}
+  }
+
+  /* ---------- 時間の試算 ---------- */
+  .cost{background:var(--paper-alt); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .cost-panel{
+    background:var(--paper); border:1px solid var(--line);
+    padding:30px 26px; margin-bottom:22px;
+  }
+  .cost-field{margin-bottom:26px;}
+  .cost-field:last-child{margin-bottom:0;}
+  .cost-field-head{
+    display:flex; justify-content:space-between; align-items:baseline;
+    gap:12px; margin-bottom:12px; flex-wrap:wrap;
+  }
+  .cost-label{font-size:0.88rem; font-weight:500;}
+  .cost-value{
+    font-family:'Noto Serif JP', serif; font-size:1.5rem; font-weight:700; color:var(--ink);
+    font-variant-numeric:tabular-nums; white-space:nowrap;
+  }
+  .cost-value small{font-size:0.8rem; font-weight:400; color:var(--ink-soft); margin-left:3px;}
+  .cost-range{
+    -webkit-appearance:none; appearance:none; width:100%; height:3px;
+    background:var(--line); outline:none; margin:6px 0 0;
+  }
+  .cost-range::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:24px; height:24px;
+    background:var(--ink); border:3px solid var(--paper); border-radius:50%;
+    cursor:pointer; box-shadow:0 0 0 1px var(--line);
+  }
+  .cost-range::-moz-range-thumb{
+    width:24px; height:24px; background:var(--ink);
+    border:3px solid var(--paper); border-radius:50%; cursor:pointer;
+  }
+  .cost-scale{display:flex; justify-content:space-between; font-size:0.7rem; color:var(--ink-soft); margin-top:8px;}
+  .cost-presets{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
+  .cost-preset{
+    border:1px solid var(--line); background:transparent; color:var(--ink-soft);
+    font:inherit; font-size:0.76rem; padding:7px 13px; cursor:pointer;
+    transition:border-color .2s, color .2s, background .2s;
+  }
+  .cost-preset:hover{border-color:var(--ink); color:var(--ink);}
+  .cost-preset.on{background:var(--ink); border-color:var(--ink); color:var(--paper);}
+
+  .cost-result{background:var(--ink); color:var(--paper-alt); padding:34px 30px; margin-bottom:20px;}
+  .cost-result-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--brand); margin-bottom:14px;}
+  .cost-big{
+    font-family:'Noto Serif JP', serif; font-weight:700; line-height:1.1;
+    font-size:clamp(2.6rem, 8vw, 4.4rem); color:#fff; font-variant-numeric:tabular-nums;
+  }
+  .cost-big span{font-size:0.36em; margin-left:8px; color:var(--paper-alt);}
+  .cost-big-note{font-size:0.85rem; color:var(--line); margin-top:12px; line-height:1.8;}
+  .cost-compare{display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--line); background:var(--paper);}
+  .cost-col{padding:24px 22px;}
+  .cost-col + .cost-col{border-left:1px solid var(--line-soft);}
+  .cost-col-head{font-size:0.78rem; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:12px;}
+  .cost-col-num{
+    font-family:'Noto Serif JP', serif; font-size:1.85rem; font-weight:700;
+    font-variant-numeric:tabular-nums; line-height:1.2;
+  }
+  .cost-col-num small{font-size:0.55em; font-weight:400; margin-left:3px;}
+  .cost-col.manual .cost-col-num{color:var(--accent);}
+  .cost-col.tool .cost-col-num{color:var(--pitch);}
+  .cost-col-desc{font-size:0.76rem; color:var(--ink-soft); margin-top:10px; line-height:1.8;}
+  .cost-payback{
+    margin-top:20px; padding:22px 24px; border:1.5px solid var(--pitch);
+    background:rgba(31,92,58,0.05); font-size:0.95rem; line-height:1.95;
+  }
+  .cost-payback strong{font-family:'Noto Serif JP', serif; font-size:1.5rem; color:var(--pitch); font-variant-numeric:tabular-nums;}
+  .cost-note{font-size:0.72rem; color:var(--ink-soft); margin-top:18px; line-height:1.9;}
+  .cost-ctas{display:flex; gap:12px; flex-wrap:wrap; margin-top:26px;}
+  @media (max-width:640px){
+    .cost-compare{grid-template-columns:1fr;}
+    .cost-col + .cost-col{border-left:none; border-top:1px solid var(--line-soft);}
+    .cost-panel{padding:24px 18px;}
+    .cost-result{padding:26px 20px;}
+  }
+
+  /* ---------- クラブ診断 ---------- */
+  .diagnose{background:var(--pitch-soft); border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);}
+  .diag-steps{display:flex; gap:8px; margin-bottom:28px; font-size:0.72rem; color:var(--ink-soft); letter-spacing:0.06em;}
+  .diag-step{display:flex; align-items:center; gap:6px;}
+  .diag-step .dot{width:6px; height:6px; border-radius:50%; background:var(--line); display:inline-block;}
+  .diag-step.active{color:var(--accent);}
+  .diag-step.active .dot{background:var(--brand);}
+  .diag-panel{display:none;}
+  .diag-panel.active{display:block; animation:fade-in 0.35s ease;}
+  @keyframes fade-in{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);}}
+  .cat-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;}
+  @media (max-width:720px){ .cat-grid{grid-template-columns:repeat(2, 1fr);} }
+  .cat-btn{
+    background:var(--paper); border:1px solid var(--line); padding:18px 10px;
+    font-size:0.85rem; color:var(--ink); cursor:pointer; text-align:center;
+    font-family:'Noto Sans JP', sans-serif; line-height:1.6;
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .cat-btn:hover{border-color:var(--pitch); color:var(--pitch);}
+  .cat-btn small{display:block; font-size:0.68rem; color:var(--ink-soft); margin-top:3px;}
+  .diag-back{
+    background:none; border:none; color:var(--ink-soft); font-size:0.8rem;
+    cursor:pointer; padding:0; margin-bottom:20px; text-decoration:underline;
+    font-family:inherit;
+  }
+  .diag-cat-name{font-family:'Noto Serif JP', serif; font-size:1.3rem; margin-bottom:20px;}
+  .pain-list{display:flex; flex-direction:column; gap:10px;}
+  .pain-btn{
+    text-align:left; background:var(--paper); border:1px solid var(--line);
+    padding:16px 18px; font-size:0.88rem; color:var(--ink);
+    cursor:pointer; font-family:'Noto Sans JP', sans-serif; line-height:1.7;
+    display:flex; justify-content:space-between; align-items:center; gap:12px;
+    transition:border-color .15s ease;
+  }
+  .pain-btn:hover{border-color:var(--pitch);}
+  .pain-btn::after{content:'→'; color:var(--brass); flex:0 0 auto;}
+  .proposal-card{
+    border:1px solid var(--pitch); background:var(--paper); padding:30px 26px; position:relative;
+  }
+  .proposal-card::before, .proposal-card::after{
+    content:''; position:absolute; width:10px; height:10px;
+    border-top:1.5px solid var(--brass); border-left:1.5px solid var(--brass);
+  }
+  .proposal-card::before{top:-1px; left:-1px;}
+  .proposal-card::after{bottom:-1px; right:-1px; border-top:none; border-left:none;
+    border-bottom:1.5px solid var(--brass); border-right:1.5px solid var(--brass);}
+  .proposal-label{font-size:0.72rem; letter-spacing:0.14em; color:var(--pitch); margin-bottom:14px;}
+  .proposal-pain{font-size:0.85rem; color:var(--ink-soft); margin-bottom:8px;}
+  .proposal-solution{font-family:'Noto Serif JP', serif; font-size:1.35rem; font-weight:700; color:var(--pitch); margin-bottom:14px; line-height:1.6;}
+  .proposal-desc{font-size:0.88rem; color:var(--ink-soft); margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--line-soft);}
+  .proposal-uses{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
+  .proposal-uses .badge{
+    border:1px solid var(--pitch); color:var(--pitch); font-size:0.74rem;
+    padding:5px 11px; letter-spacing:0.04em; background:var(--pitch-soft);
+  }
+  .proposal-ctas{display:flex; gap:12px; flex-wrap:wrap;}
+
+  /* ---------- 理由 ---------- */
+  .features{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line-soft); border:1px solid var(--line-soft);
+  }
+  .feature{background:var(--paper); padding:30px 24px;}
+  .feature .fnum{font-family:'Noto Serif JP',serif; font-size:0.8rem; color:var(--brass); margin-bottom:14px;}
+  .feature h3{font-size:1.02rem; margin-bottom:10px; font-weight:600; color:var(--pitch);}
+  .feature p{font-size:0.85rem; color:var(--ink-soft);}
+  @media (max-width:720px){ .features{grid-template-columns:1fr;} }
+
+  /* ---------- 料金 ---------- */
+  .price-table{border:1px solid var(--line); background:var(--paper);}
+  .price-row{
+    display:grid; grid-template-columns:1fr auto auto; gap:14px; align-items:center;
+    padding:18px 22px; border-bottom:1px solid var(--line-soft);
+  }
+  .price-row:last-child{border-bottom:none;}
+  .price-name{font-weight:700; font-size:0.94rem; color:var(--pitch);}
+  .price-name small{display:block; font-weight:400; font-size:0.74rem; color:var(--ink-soft); letter-spacing:0.06em;}
+  .price-init, .price-month{
+    font-family:'Noto Serif JP', serif; font-weight:700; font-size:1.02rem;
+    font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right;
+  }
+  .price-init{color:var(--ink-soft); font-size:0.9rem;}
+  .price-init b, .price-month b{display:block; font-family:'Noto Sans JP',sans-serif; font-weight:400; font-size:0.66rem; letter-spacing:0.1em; color:var(--ink-soft);}
+  @media (max-width:620px){
+    .price-row{grid-template-columns:1fr 1fr; gap:8px 14px;}
+    .price-name{grid-column:1 / -1;}
+    .price-init, .price-month{text-align:left;}
+  }
+  .pack{
+    margin-top:24px; border:1.5px solid var(--pitch); background:var(--pitch-soft);
+    padding:32px 28px; position:relative;
+  }
+  .pack-tag{font-size:0.72rem; letter-spacing:0.14em; color:var(--pitch); font-weight:700; margin-bottom:12px;}
+  .pack-name{font-family:'Noto Serif JP', serif; font-size:1.5rem; font-weight:700; margin-bottom:8px;}
+  .pack-price{display:flex; align-items:baseline; gap:8px; margin-bottom:16px; flex-wrap:wrap;}
+  .pack-price .num{font-family:'Noto Serif JP', serif; font-size:2.1rem; font-weight:700; color:var(--pitch); font-variant-numeric:tabular-nums;}
+  .pack-price .unit{font-size:0.82rem; color:var(--ink-soft);}
+  .pack p{font-size:0.87rem; color:var(--ink-soft); line-height:1.9;}
+  .price-note{font-size:0.76rem; color:var(--ink-soft); margin-top:20px; line-height:1.9;}
+
+  /* ---------- 流れ ---------- */
+  .flow{border-top:1px solid var(--line-soft);}
+  .flow-row{
+    display:flex; gap:24px; padding:26px 0; border-bottom:1px solid var(--line-soft);
+    align-items:flex-start;
+  }
+  .flow-num{font-family:'Noto Serif JP', serif; font-size:0.9rem; color:var(--accent); flex:0 0 44px;}
+  .flow-body h3{font-size:1rem; font-weight:600; margin-bottom:6px;}
+  .flow-body p{font-size:0.85rem; color:var(--ink-soft);}
+
+  /* ---------- FAQ ---------- */
+  .faq{border-top:1px solid var(--line-soft);}
+  .faq details{border-bottom:1px solid var(--line-soft);}
+  .faq summary{
+    padding:20px 34px 20px 30px; font-size:0.94rem; font-weight:500;
+    cursor:pointer; list-style:none; position:relative; line-height:1.7;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::before{
+    content:'Q'; position:absolute; left:0; top:20px;
+    font-family:'Noto Serif JP', serif; font-weight:700; color:var(--pitch); font-size:0.9rem;
+  }
+  .faq summary::after{
+    content:'+'; position:absolute; right:4px; top:18px;
+    color:var(--brass); font-size:1.1rem; transition:transform .2s ease;
+  }
+  .faq details[open] summary::after{transform:rotate(45deg);}
+  .faq .a{
+    padding:0 4px 22px 30px; font-size:0.87rem; color:var(--ink-soft); line-height:1.95;
+  }
+
+  /* ---------- CTA / footer ---------- */
+  .cta-block{
+    text-align:center; padding:70px 24px;
+    border-top:1px solid var(--line-soft); border-bottom:1px solid var(--line-soft);
+    background:var(--paper-alt);
+  }
+  .cta-block h2{font-size:1.5rem; margin-bottom:16px; line-height:1.6;}
+  .cta-block p{color:var(--ink-soft); font-size:0.9rem; margin-bottom:30px;}
+  .cta-ctas{display:flex; gap:14px; flex-wrap:wrap; justify-content:center;}
+
+  footer{padding:34px 24px; text-align:center; font-size:0.78rem; color:var(--ink-soft); line-height:2;}
+  footer a{color:var(--ink-soft);}
+  .foot-back{display:inline-block; margin-top:6px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#top">
+      <span class="mark"></span>カタチラボ<span class="fb">FOOTBALL</span>
+    </a>
+    <a class="nav-cta" href="#contact">無料で相談</a>
+  </div>
+</header>
+
+<section class="hero grid-bg" id="top">
+  <!-- ピッチのラインを、設計図の細線で敷く。画像は使わない -->
+  <div class="pitch-bg" aria-hidden="true">
+    <svg viewBox="0 0 1000 620" fill="none" stroke="var(--pitch-line)" stroke-width="1.5" preserveAspectRatio="xMidYMid slice">
+      <rect x="40" y="40" width="920" height="540"/>
+      <line x1="500" y1="40" x2="500" y2="580"/>
+      <circle cx="500" cy="310" r="82"/>
+      <circle cx="500" cy="310" r="3" fill="var(--pitch-line)" stroke="none"/>
+      <rect x="40" y="145" width="150" height="330"/>
+      <rect x="40" y="228" width="58" height="164"/>
+      <path d="M190 245 A 82 82 0 0 1 190 375"/>
+      <rect x="810" y="145" width="150" height="330"/>
+      <rect x="902" y="228" width="58" height="164"/>
+      <path d="M810 245 A 82 82 0 0 0 810 375"/>
+    </svg>
+  </div>
+
+  <div class="wrap">
+    <div class="eyebrow">KATACHI LAB FOOTBALL / サッカー専用のツール</div>
+    <h1>サッカーの現場を、<br><span class="accent-underline">もっとシンプルに。</span></h1>
+    <p class="lead">
+      Excel、LINE、紙、ホワイトボード、バラバラのアプリ。
+      監督とコーチがそこに費やしている時間を、サッカー専用のツール5つに置き換えます。
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-primary" href="#contact">無料で相談する</a>
+      <a class="btn-ghost" href="#week">できることを見る</a>
+    </div>
+    <div class="built-badge">
+      <span class="tag">FIELD-BUILT</span>
+      <span>現役のジュニアユース監督が、自分の現場で毎週使いながら作っています。</span>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 置き換え表 ========== -->
+<section id="replace">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">REPLACE</div>
+      <h2 class="section-title">新しく何かを始めるのではなく、<br>いまやっていることを置き換えます。</h2>
+      <p class="section-sub">増やすのではなく、減らすための道具です。左が今まで、右がこれから。</p>
+    </div>
+
+    <div class="swap">
+      <div class="swap-head">
+        <span>いままで</span><span></span><span>これから</span>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">Excelで組んだ練習試合の対戦表</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">トレーニングマッチ作成</div>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">LINEで延々と続く日程交渉のスレッド</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">トレーニングマッチ作成</div>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">ホワイトボードと磁石、消えかけたマーカー</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">3D戦術ボード</div>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">スタンドで書いた紙のメモと、帰ってからのExcel転記</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">スカウティングシステム</div>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">「調子どう？」という問いかけと、監督の勘</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">選手コンディション管理</div>
+      </div>
+      <div class="swap-row">
+        <div class="swap-old">半年前で更新の止まったクラブのブログ</div>
+        <div class="swap-arrow" aria-hidden="true"></div>
+        <div class="swap-new">マッチプランナー</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 監督の一週間 ========== -->
+<section class="week-sec" id="week">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">A COACH'S WEEK</div>
+      <h2 class="section-title">監督の一週間に、<br>そのまま入ります。</h2>
+      <p class="section-sub">
+        5つのツールは、それぞれ別のアプリではありません。月曜から日曜までの仕事が、そのまま1本につながります。
+      </p>
+    </div>
+
+    <div class="week">
+      <div class="week-row">
+        <div class="week-day"><span class="d">月<small>MON</small></span></div>
+        <div class="week-body">
+          <div class="week-act">来月の練習試合の相手を探して、日程とコートを組む</div>
+          <div class="week-note">空いている日を出し合って、会場を押さえて、時間割を作る。いちばん時間が溶けるところ。</div>
+          <a class="week-chip" href="#svc-match">トレーニングマッチ作成</a>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-day"><span class="d">火<small>TUE</small></span></div>
+        <div class="week-body">
+          <div class="week-act">選手が体重・睡眠・食事・疲労を入力する</div>
+          <div class="week-note">練習前の1分。無理をしている選手が、練習が始まる前に画面でわかる。</div>
+          <a class="week-chip" href="#svc-condition">選手コンディション管理</a>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-day"><span class="d">水<small>WED</small></span></div>
+        <div class="week-body">
+          <div class="week-act">週末の相手を分析して、狙いどころを決める</div>
+          <div class="week-note">相手の並びと特徴を、選手ごとの記録から確認する。</div>
+          <a class="week-chip" href="#svc-scout">スカウティングシステム</a>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-day"><span class="d">木<small>THU</small></span></div>
+        <div class="week-body">
+          <div class="week-act">立ち位置と動き方を、選手に見せて共有する</div>
+          <div class="week-note">口で説明していたことを、3Dで見せる。選手のスマホでも同じものが見られる。</div>
+          <a class="week-chip" href="#svc-tactics">3D戦術ボード</a>
+        </div>
+      </div>
+      <div class="week-row">
+        <div class="week-day"><span class="d">金<small>FRI</small></span></div>
+        <div class="week-body">
+          <div class="week-act">メンバーを決めて、保護者に集合時間を流す</div>
+          <div class="week-note">コンディションの数字を見ながら、最終的に誰を使うかを決める。</div>
+          <a class="week-chip" href="#svc-condition">選手コンディション管理</a>
+          <a class="week-chip" href="#svc-hp">マッチプランナー</a>
+        </div>
+      </div>
+      <div class="week-row is-match">
+        <div class="week-day"><span class="d">土<small>SAT</small></span></div>
+        <div class="week-body">
+          <div class="week-act">試合。スコアと出場時間をその場で入力する</div>
+          <div class="week-note">帰りのバスの中で終わる。あとで思い出しながら打ち直す作業が消える。</div>
+          <a class="week-chip" href="#svc-hp">マッチプランナー</a>
+        </div>
+      </div>
+      <div class="week-row is-match">
+        <div class="week-day"><span class="d">日<small>SUN</small></span></div>
+        <div class="week-body">
+          <div class="week-act">ホームページの戦績・選手の成績・お知らせが、勝手に新しくなっている</div>
+          <div class="week-note">土曜に入力した結果が、そのままクラブの記録として積み上がる。更新作業はもう無い。</div>
+          <a class="week-chip" href="#svc-hp">マッチプランナー</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="week-foot">
+      入れるのは1つからで大丈夫です。<strong>いちばん困っているところ</strong>から置き換えて、
+      効いた実感があってから次を足す。この順番をおすすめしています。
+    </div>
+  </div>
+</section>
+
+<!-- ========== サービス5つ ========== -->
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">5 TOOLS</div>
+      <h2 class="section-title">サッカー専用に作った、5つの道具。</h2>
+      <p class="section-sub">
+        汎用の業務アプリをサッカーに当てはめたものではありません。最初からサッカーの現場のために作っています。
+      </p>
+    </div>
+
+    <div class="svc-list">
+
+      <!-- 01 マッチプランナー -->
+      <article class="svc" id="svc-hp">
+        <div class="svc-no">01</div>
+        <h3 class="svc-name">マッチプランナー<span class="svc-sub">HOMEPAGE + CLUB MANAGEMENT</span></h3>
+        <p class="svc-catch">試合結果を入力するだけで、ホームページが育っていく。</p>
+        <div class="svc-kill">
+          <span class="svc-kill-label">これがなくなる</span>
+          <span class="svc-kill-items">半年前で止まったブログ / 業者への修正依頼メール / 戦績表の手打ち / 選手名簿のExcel</span>
+        </div>
+        <ul class="svc-can">
+          <li>クラブのホームページを制作し、そのまま運営システムとしても使えるようにします</li>
+          <li>試合結果を入力すると、戦績・順位・選手ごとの出場記録とゴール数が自動で更新されます</li>
+          <li>お知らせ・スケジュール・選手紹介を、スマホから直接書き換えられます</li>
+          <li>入団希望や体験申込のフォームまで込みなので、募集の受け皿としても機能します</li>
+        </ul>
+        <div class="svc-foot">
+          <div class="svc-price">
+            <!-- ★要確認: 価格は本体LPの帯からの目安。確定額に差し替えること -->
+            <span class="amount">10〜30万<small>円</small></span>
+            <span class="monthly">＋ 月額 5,000〜10,000円</span>
+          </div>
+          <div class="svc-ctas">
+            <a class="btn-sm" href="#contact" data-demo-todo>制作事例を見る</a>
+            <a class="btn-sm ghost" href="#contact" data-svc="マッチプランナー（ホームページ制作＋クラブ運営）">これだけ相談する</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 02 3D戦術ボード -->
+      <article class="svc" id="svc-tactics">
+        <div class="svc-no">02</div>
+        <h3 class="svc-name">3D戦術ボード<span class="svc-sub">3D TACTICS BOARD</span></h3>
+        <p class="svc-catch">ホワイトボードと磁石を、22人が連動する3Dへ。</p>
+        <div class="svc-kill">
+          <span class="svc-kill-label">これがなくなる</span>
+          <span class="svc-kill-items">ホワイトボードと磁石 / 紙に描いたフォーメーション図 / 「なんとなく伝わった気がする」ミーティング</span>
+        </div>
+        <ul class="svc-can">
+          <li>選手の配置と動きを3Dで表示し、その場で動かしながら選手に見せられます</li>
+          <li>局面を選ぶと、22人が原理原則に沿って連動します。1人ずつ置き直す必要がありません</li>
+          <li>8人制・11人制の両方に対応。ジュニアからトップまで同じ画面で使えます</li>
+          <li>作った図はそのまま共有できるので、ミーティングの後で選手が自分で見返せます</li>
+        </ul>
+        <div class="svc-foot">
+          <div class="svc-price">
+            <!-- ★要確認: 受託開発の価格帯。サブスク提供にするなら要改訂 -->
+            <span class="amount">お問い合わせ</span>
+            <span class="monthly">導入形態に応じてご案内します</span>
+          </div>
+          <div class="svc-ctas">
+            <a class="btn-sm" href="../tactics-board_58.html" target="_blank" rel="noopener">実際に触ってみる</a>
+            <a class="btn-sm ghost" href="../demo/tactics-board-pv.html" target="_blank" rel="noopener">PVを見る</a>
+            <a class="btn-sm ghost" href="#contact" data-svc="3D戦術ボード">これだけ相談する</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 03 トレーニングマッチ作成 -->
+      <article class="svc" id="svc-match">
+        <div class="svc-no">03</div>
+        <h3 class="svc-name">トレーニングマッチ作成<span class="svc-sub">MATCH MAKER</span></h3>
+        <p class="svc-catch">申込を貼り付けるだけで、コート別の進行表ができる。</p>
+        <div class="svc-kill">
+          <span class="svc-kill-label">これがなくなる</span>
+          <span class="svc-kill-items">Excelで組んだ対戦表 / LINEの日程交渉スレッド / 「連戦になってませんか」の確認電話</span>
+        </div>
+        <ul class="svc-can">
+          <li>各クラブから集めた申込を貼り付けると、コート別・時間別の進行表を自動で組み立てます</li>
+          <li>連戦や、同じ相手との重複を避けて割り当てます</li>
+          <li>チームごとの出番と待ち時間まで出るので、当日の運営がそのまま回ります</li>
+          <li>フェスティバルや交流戦など、複数チームが集まる大会の運営にも使えます</li>
+        </ul>
+        <div class="svc-foot">
+          <div class="svc-price">
+            <!-- ★要確認: 価格は本体LPの帯からの目安 -->
+            <span class="amount">5〜15万<small>円</small></span>
+            <span class="monthly">＋ 月額 5,000〜10,000円</span>
+          </div>
+          <div class="svc-ctas">
+            <a class="btn-sm" href="../demo/matchmake-pv.html" target="_blank" rel="noopener">紹介動画を見る</a>
+            <a class="btn-sm ghost" href="#contact" data-svc="トレーニングマッチ作成（練習試合マッチメーカー）">これだけ相談する</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 04 スカウティング -->
+      <article class="svc" id="svc-scout">
+        <div class="svc-no">04</div>
+        <h3 class="svc-name">スカウティングシステム<span class="svc-sub">GENSEKI XI / 原石イレブン</span></h3>
+        <span class="svc-for">高校・ユースのスカウト向け</span>
+        <p class="svc-catch">圏外の会場でも、ワンタップで選手が記録できる。</p>
+        <div class="svc-kill">
+          <span class="svc-kill-label">これがなくなる</span>
+          <span class="svc-kill-items">スタンドで書いた紙のメモ / 帰宅後のExcel転記 / 「あの選手、誰だったっけ」</span>
+        </div>
+        <ul class="svc-can">
+          <li>データは端末の中に保存されるので、電波の届かない会場でも完全に動きます</li>
+          <li>試合を登録し、メンバー表を取り込んで、試合中はワンタップで評価するだけ</li>
+          <li>評価した選手だけが自動でカルテになり、視察の履歴がそのまま積み上がります</li>
+          <li>スマホ前提のPWA。アプリストアからのインストールは不要です</li>
+        </ul>
+        <div class="svc-foot">
+          <div class="svc-price">
+            <!-- ★要確認: GENSEKI_XI_pricing_plans.pdf の内容と突き合わせること -->
+            <span class="amount">お問い合わせ</span>
+            <span class="monthly">スカウト人数に応じてご案内します</span>
+          </div>
+          <div class="svc-ctas">
+            <a class="btn-sm ghost soon" aria-disabled="true">デモは個別にご案内</a>
+            <a class="btn-sm ghost" href="#contact" data-svc="スカウティングシステム GENSEKI XI">これだけ相談する</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- 05 コンディション管理 -->
+      <article class="svc" id="svc-condition">
+        <div class="svc-no">05</div>
+        <h3 class="svc-name">選手コンディション管理<span class="svc-sub">FISICA</span></h3>
+        <p class="svc-catch">監督の勘を、数字とグラフで裏づける。</p>
+        <div class="svc-kill">
+          <span class="svc-kill-label">これがなくなる</span>
+          <span class="svc-kill-items">「調子どう？」という問いかけだけの確認 / 言い出せないまま悪化するケガ / 感覚だけの起用判断</span>
+        </div>
+        <ul class="svc-can">
+          <li>選手は体重・身長・睡眠・体調・疲労・食事を、スマホから最短で入力します</li>
+          <li>コンディションは0〜100のスコアになり、監督は全選手をダッシュボードで一覧できます</li>
+          <li>コンディション低下・睡眠不足・体重の急減・入力率の低下は、アラートで拾い上げます</li>
+          <li>月ごとに成長カルテが自動生成され、A4のPDFにして保護者にそのまま渡せます</li>
+        </ul>
+        <div class="svc-foot">
+          <div class="svc-price">
+            <!-- ★要確認: 人数課金にするかチーム定額にするか未決 -->
+            <span class="amount">お問い合わせ</span>
+            <span class="monthly">選手人数に応じてご案内します</span>
+          </div>
+          <div class="svc-ctas">
+            <a class="btn-sm ghost soon" aria-disabled="true">デモは個別にご案内</a>
+            <a class="btn-sm ghost" href="#contact" data-svc="選手コンディション管理 FISICA">これだけ相談する</a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== 時間の試算 ========== -->
+<section class="cost" id="cost">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">TIME CHECK</div>
+      <h2 class="section-title">その事務作業に、<br>年間どれだけ使っていますか。</h2>
+      <p class="section-sub">
+        日程調整、名簿づくり、集金の管理、連絡、ホームページの更新。
+        グラウンドの外でかかっている時間を、3つ動かすだけで出します。
+      </p>
+    </div>
+
+    <div class="cost-panel">
+      <div class="cost-field">
+        <div class="cost-field-head">
+          <label class="cost-label" for="fb-teams">見ているカテゴリ・チームの数</label>
+          <span class="cost-value" id="fb-teams-view">2<small>チーム</small></span>
+        </div>
+        <input class="cost-range" type="range" id="fb-teams" min="1" max="8" step="1" value="2">
+        <div class="cost-scale"><span>1チーム</span><span>8チーム</span></div>
+      </div>
+
+      <div class="cost-field">
+        <div class="cost-field-head">
+          <label class="cost-label" for="fb-hours">1チームあたり、週に使う事務作業の時間</label>
+          <span class="cost-value" id="fb-hours-view">3<small>時間</small></span>
+        </div>
+        <input class="cost-range" type="range" id="fb-hours" min="0.5" max="12" step="0.5" value="3">
+        <div class="cost-scale"><span>30分</span><span>12時間</span></div>
+      </div>
+
+      <div class="cost-field">
+        <div class="cost-field-head">
+          <label class="cost-label" for="fb-wage">その時間を、いくらで見積もりますか</label>
+          <span class="cost-value" id="fb-wage-view">2,000<small>円/時</small></span>
+        </div>
+        <input class="cost-range" type="range" id="fb-wage" min="1000" max="6000" step="100" value="2000">
+        <div class="cost-scale"><span>1,000円</span><span>6,000円</span></div>
+        <div class="cost-presets" id="fb-presets">
+          <button type="button" class="cost-preset" data-wage="1500">ボランティアコーチ</button>
+          <button type="button" class="cost-preset on" data-wage="2000">有給コーチ・スタッフ</button>
+          <button type="button" class="cost-preset" data-wage="3000">監督・代表</button>
+          <button type="button" class="cost-preset" data-wage="4500">クラブ経営者</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="cost-result">
+      <div class="cost-result-label">ANNUAL TIME</div>
+      <div class="cost-big" id="fb-annual">270<span>時間 / 年</span></div>
+      <div class="cost-big-note" id="fb-annual-note">
+        1回2時間の練習に換算すると、135回分。シーズン45週で計算しています。
+      </div>
+    </div>
+
+    <div class="cost-compare">
+      <div class="cost-col manual">
+        <div class="cost-col-head">いまのまま（年間）</div>
+        <div class="cost-col-num" id="fb-manual">54<small>万円</small></div>
+        <div class="cost-col-desc">この時間を時給に換算した金額です。実際には請求書は来ませんが、誰かの時間として確実に出ていっています。</div>
+      </div>
+      <div class="cost-col tool">
+        <div class="cost-col-head" id="fb-tool-head">ツールに置き換えたら（年間 / FOOTBALLパック）</div>
+        <div class="cost-col-num" id="fb-tool">34<small>万円</small></div>
+        <div class="cost-col-desc">月額と、それでも残る作業（3割）の時間を足した金額です。作業がゼロになるとは言いません。</div>
+      </div>
+    </div>
+
+    <div class="cost-payback" id="fb-payback">
+      戻ってくる時間は年間 <strong>189</strong> 時間。練習 <strong>94</strong> 回分の時間を、選手に返せます。
+    </div>
+
+    <p class="cost-note" id="fb-note">
+      ※ 試算の前提: ツールにしても確認や例外対応は残るため、<strong>事務作業が7割減る</strong>控えめな想定で計算しています。
+      シーズンは年45週、練習1回は2時間として換算。月額はFOOTBALLパック（15,000円）を使用し、
+      1つだけ導入する場合は月額3,000円として再計算しています。
+      実際の金額はクラブの規模によって変わります。ここでの数字は話のきっかけとしてお使いください。
+    </p>
+
+    <div class="cost-ctas">
+      <a class="btn-primary" href="#contact">この時間を減らす相談をする</a>
+      <a class="btn-ghost" href="#pricing">料金を見る</a>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   時間の試算
+
+   お金より先に「時間」を出す。クラブの多くはボランティアで回っていて、
+   金額だけ見せても実感につながらないため、
+   まず年間時間 → 練習◯回分 → そのあとで金額、の順に見せている。
+   ============================================================ */
+(function(){
+  var teams = document.getElementById('fb-teams');
+  var hours = document.getElementById('fb-hours');
+  var wage  = document.getElementById('fb-wage');
+  if(!teams || !hours || !wage) return;
+
+  var WEEKS         = 45;      // シーズンの週数(オフを除いた控えめな数)
+  var PRACTICE_HOUR = 2;       // 練習1回ぶんの時間
+  var CUT           = 0.7;     // ツールにしても作業はゼロにならない。控えめに7割減
+  var PACK_MONTHLY  = 15000;   // FOOTBALLパックの月額
+  var SINGLE_MONTHLY= 3000;    // 1つだけ導入したときの月額(目安)
+
+  function jp(n){ return Math.round(n).toLocaleString('ja-JP'); }
+
+  /* 0.5 → 「30分」、1.5 → 「1時間30分」 */
+  function hm(h){
+    var total = Math.round(h * 60);
+    var hour = Math.floor(total / 60), min = total % 60;
+    if(hour === 0) return min + '<small>分</small>';
+    if(min === 0)  return hour + '<small>時間</small>';
+    return hour + '<small>時間</small>' + min + '<small>分</small>';
+  }
+
+  /* 円 → 「◯◯万円」。1万未満はそのまま円で見せる */
+  function man(n){
+    if(n < 10000) return { v: jp(n), unit: '円' };
+    var m = n / 10000;
+    return { v: (m >= 100 ? Math.round(m) : Math.round(m * 10) / 10).toLocaleString('ja-JP'), unit: '万円' };
+  }
+
+  function render(){
+    var t = Number(teams.value);
+    var h = Number(hours.value);
+    var w = Number(wage.value);
+
+    document.getElementById('fb-teams-view').innerHTML = t + '<small>チーム</small>';
+    document.getElementById('fb-hours-view').innerHTML = hm(h);
+    document.getElementById('fb-wage-view').innerHTML  = jp(w) + '<small>円/時</small>';
+
+    var annualHours = t * h * WEEKS;
+    var practices   = Math.round(annualHours / PRACTICE_HOUR);
+    var annualCost  = annualHours * w;
+
+    document.getElementById('fb-annual').innerHTML = jp(annualHours) + '<span>時間 / 年</span>';
+    document.getElementById('fb-annual-note').textContent =
+      '1回' + PRACTICE_HOUR + '時間の練習に換算すると、' + jp(practices) + '回分。' +
+      'シーズン' + WEEKS + '週で計算しています。';
+
+    var mc = man(annualCost);
+    document.getElementById('fb-manual').innerHTML = mc.v + '<small>' + mc.unit + '</small>';
+
+    var savedHours     = annualHours * CUT;
+    var savedPractices = Math.floor(savedHours / PRACTICE_HOUR);
+    var remainCost     = annualHours * (1 - CUT) * w;   // 置き換えても残る3割ぶんの時間の値段
+    var box  = document.getElementById('fb-payback');
+    var head = document.getElementById('fb-tool-head');
+
+    /* 浮く人件費がパックの月額に届かないなら、そう言う。全部そろえる必要はない。
+       そのときは比較の右側も、パックではなく単品の金額に切り替える。
+       すすめている中身と、並べている金額を食い違わせないため */
+    var packOK = annualCost * CUT > PACK_MONTHLY * 12;
+    var yearly = (packOK ? PACK_MONTHLY : SINGLE_MONTHLY) * 12 + remainCost;
+    var tc = man(yearly);
+    document.getElementById('fb-tool').innerHTML = tc.v + '<small>' + tc.unit + '</small>';
+    head.textContent = packOK
+      ? 'ツールに置き換えたら（年間 / FOOTBALLパック）'
+      : 'ツールに置き換えたら（年間 / 1つだけ導入）';
+
+    if(packOK){
+      box.innerHTML =
+        '戻ってくる時間は年間 <strong>' + jp(savedHours) + '</strong> 時間。'
+        + '練習 <strong>' + jp(savedPractices) + '</strong> 回分の時間を、選手に返せます。';
+    } else {
+      var worthSingle = annualCost * CUT > SINGLE_MONTHLY * 12;
+      box.innerHTML =
+        '戻ってくる時間は年間 <strong>' + jp(savedHours) + '</strong> 時間。'
+        + 'ただしこの作業量だと、<strong style="font-size:1rem">5つ全部そろえるのは早い</strong>かもしれません。'
+        + (worthSingle
+            ? 'いちばん困っているところを<strong style="font-size:1rem">1つだけ</strong>（月額3,000円〜）入れるところから始めるのがおすすめです。'
+            : 'まずは相談だけしてみてください。作らないほうがいい、とお伝えすることもあります。');
+    }
+  }
+
+  [teams, hours, wage].forEach(function(el){ el.addEventListener('input', render); });
+
+  var presets = document.getElementById('fb-presets');
+  presets.addEventListener('click', function(e){
+    var b = e.target.closest('.cost-preset');
+    if(!b) return;
+    wage.value = b.dataset.wage;
+    presets.querySelectorAll('.cost-preset').forEach(function(x){ x.classList.remove('on'); });
+    b.classList.add('on');
+    render();
+  });
+  /* スライダーを直接動かしたら、プリセットの選択表示を合わせる */
+  wage.addEventListener('input', function(){
+    presets.querySelectorAll('.cost-preset').forEach(function(x){
+      x.classList.toggle('on', Number(x.dataset.wage) === Number(wage.value));
+    });
+  });
+
+  render();
+})();
+</script>
+
+<!-- ========== クラブ診断 ========== -->
+<section class="diagnose" id="diagnose">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">DIAGNOSIS</div>
+      <h2 class="section-title">うちのクラブには、どれが要る？</h2>
+      <p class="section-sub">カテゴリと困りごとを選ぶと、どれから入れるべきかをお答えします。5つ全部そろえる必要はありません。</p>
+    </div>
+
+    <div class="diag-steps">
+      <span class="diag-step" data-step-indicator="1">STEP 1 <span class="dot"></span></span>
+      <span class="diag-step" data-step-indicator="2">STEP 2 <span class="dot"></span></span>
+      <span class="diag-step" data-step-indicator="3">STEP 3 <span class="dot"></span></span>
+    </div>
+
+    <!-- STEP 1: カテゴリ選択 -->
+    <div class="diag-panel" id="diag-step-1">
+      <div class="cat-grid" id="cat-grid"></div>
+    </div>
+
+    <!-- STEP 2: 困りごと選択 -->
+    <div class="diag-panel" id="diag-step-2">
+      <button class="diag-back" id="back-to-1">← カテゴリを選び直す</button>
+      <div class="diag-cat-name" id="diag-cat-name"></div>
+      <div class="pain-list" id="pain-list"></div>
+    </div>
+
+    <!-- STEP 3: 提案 -->
+    <div class="diag-panel" id="diag-step-3">
+      <button class="diag-back" id="back-to-2">← 困りごとを選び直す</button>
+      <div class="proposal-card">
+        <div class="proposal-label">PROPOSAL</div>
+        <div class="proposal-pain" id="proposal-pain"></div>
+        <div class="proposal-solution" id="proposal-solution"></div>
+        <div class="proposal-desc" id="proposal-desc"></div>
+        <div class="proposal-uses" id="proposal-uses"></div>
+        <div class="proposal-ctas">
+          <a class="btn-primary" id="proposal-mailto" href="#contact">この内容で相談する</a>
+          <button class="btn-ghost" id="restart-diag" style="background:none; font:inherit; font-size:0.9rem; cursor:pointer;">他のカテゴリも見る</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* ============================================================
+   クラブ診断
+
+   カタチラボ本体の「業種診断」と同じ組み立て。
+   第1軸を業種からカテゴリに、提案を5つのツールの組み合わせに差し替えている。
+   ============================================================ */
+(function(){
+  var categories = [
+    { name:"ジュニア", note:"小学生・スポーツ少年団", pains:[
+      { q:"練習試合の相手探しと日程調整に時間がかかる", solution:"トレーニングマッチ作成から始める",
+        desc:"申込を貼り付けるだけでコート別・時間別の進行表ができます。連戦や重複も自動で避けます。まずここだけで、月曜の夜が空きます。",
+        uses:["トレーニングマッチ作成"] },
+      { q:"保護者への連絡がLINEと紙でバラバラ", solution:"マッチプランナー（ホームページ＋お知らせ配信）",
+        desc:"お知らせとスケジュールをスマホから直接更新でき、保護者はいつでも同じ場所を見れば済むようになります。入団・体験の申込フォームも込みです。",
+        uses:["マッチプランナー"] },
+      { q:"体験・入団の問い合わせが増えない", solution:"マッチプランナー（クラブの見え方をつくる）",
+        desc:"試合結果を入力するだけで戦績と活動記録が積み上がるので、探している保護者が「動いているクラブ」だと分かる状態になります。",
+        uses:["マッチプランナー"] }
+    ]},
+    { name:"ジュニアユース", note:"中学生・クラブチーム", pains:[
+      { q:"月曜の夜が、毎週のように事務作業で消える", solution:"トレーニングマッチ作成 ＋ マッチプランナー",
+        desc:"日程調整と、その結果の記録・公開をひとつながりにします。土曜に入力したものが日曜にはホームページに載っている状態になります。",
+        uses:["トレーニングマッチ作成","マッチプランナー"] },
+      { q:"戦術の意図が、口頭では選手に伝わりきらない", solution:"3D戦術ボード",
+        desc:"局面を選ぶと22人が原理原則で連動します。動かしながら見せられるので、ホワイトボードでは伝わらなかった立ち位置と動き方が共有できます。",
+        uses:["3D戦術ボード"] },
+      { q:"成長期の選手の体調・ケガが心配", solution:"選手コンディション管理 FISICA",
+        desc:"体重・睡眠・疲労を毎日1分入力するだけで、無理をしている選手がダッシュボードに出ます。月ごとの成長カルテはPDFで保護者に渡せます。",
+        uses:["選手コンディション管理"] },
+      { q:"クラブのホームページが半年前で止まっている", solution:"マッチプランナー",
+        desc:"更新作業そのものを無くします。試合結果を入力すれば、戦績・順位・選手ごとの記録が自動で新しくなります。",
+        uses:["マッチプランナー"] }
+    ]},
+    { name:"高校・ユース", note:"部活動・ユースチーム", pains:[
+      { q:"中学生の視察記録が紙とExcelでバラバラ", solution:"スカウティングシステム GENSEKI XI",
+        desc:"圏外の会場でも動きます。試合中にワンタップで評価すると、評価した選手だけが自動でカルテになり、視察履歴が積み上がります。",
+        uses:["スカウティングシステム"] },
+      { q:"部員が多くて、一人ひとりの状態まで見きれない", solution:"選手コンディション管理 FISICA",
+        desc:"全選手のコンディションスコア・睡眠・体重変化・入力率を一覧できます。要注意の選手はアラートで拾い上げます。",
+        uses:["選手コンディション管理"] },
+      { q:"分析と戦術共有に手間がかかる", solution:"3D戦術ボード ＋ スカウティングシステム",
+        desc:"相手の情報を記録として貯めておき、それをもとに立ち位置を3Dで組み立てて選手に見せる、という流れが1本になります。",
+        uses:["3D戦術ボード","スカウティングシステム"] }
+    ]},
+    { name:"社会人・大学", note:"社会人リーグ・大学サッカー部", pains:[
+      { q:"全員の予定を合わせるのに毎回苦労している", solution:"トレーニングマッチ作成",
+        desc:"参加できるメンバーと日程を集めて、コート別・時間別の割り当てまで自動で出します。交渉のスレッドを追う作業が減ります。",
+        uses:["トレーニングマッチ作成"] },
+      { q:"チームの記録が誰の手元にも残っていない", solution:"マッチプランナー",
+        desc:"試合結果を入力するだけで、戦績と個人成績が積み上がります。代が替わっても記録が引き継がれます。",
+        uses:["マッチプランナー"] }
+    ]},
+    { name:"協会・連盟", note:"大会・フェスティバル主催", pains:[
+      { q:"大会の組み合わせと進行表づくりが毎回大仕事", solution:"トレーニングマッチ作成（大会運営モード）",
+        desc:"参加チームの申込を貼り付けると、コート別・時間別の進行表を組み立てます。チームごとの出番と待ち時間まで出るので当日そのまま使えます。",
+        uses:["トレーニングマッチ作成"] },
+      { q:"結果の集計と公開に時間がかかる", solution:"トレーニングマッチ作成 ＋ マッチプランナー",
+        desc:"当日の結果入力から、順位表と結果ページの公開までをひとつながりにします。大会が終わった夜のうちに公開できます。",
+        uses:["トレーニングマッチ作成","マッチプランナー"] }
+    ]},
+    { name:"スクール", note:"サッカースクール・スクール事業", pains:[
+      { q:"会員名簿と月謝の管理がExcelでつらい", solution:"クラブ運営システム（個別に設計）",
+        desc:"名簿・在籍状況・支払い状況をひとつにまとめます。既存の5つに当てはまらない部分は、カタチラボ本体で一から設計します。",
+        uses:["マッチプランナー","個別開発"] },
+      { q:"保護者へのお知らせと連絡が電話中心", solution:"マッチプランナー（お知らせ配信）",
+        desc:"休講連絡やお知らせをオンラインで一括配信し、電話対応そのものを減らします。",
+        uses:["マッチプランナー"] }
+    ]}
+  ];
+
+  var grid = document.getElementById('cat-grid');
+  categories.forEach(function(cat, i){
+    var btn = document.createElement('button');
+    btn.className = 'cat-btn';
+    btn.innerHTML = cat.name + '<small>' + cat.note + '</small>';
+    btn.addEventListener('click', function(){ showStep2(i); });
+    grid.appendChild(btn);
+  });
+
+  function setStep(n){
+    document.querySelectorAll('.diag-panel').forEach(function(p){ p.classList.remove('active'); });
+    document.getElementById('diag-step-' + n).classList.add('active');
+    document.querySelectorAll('.diag-step').forEach(function(s){
+      s.classList.toggle('active', Number(s.dataset.stepIndicator) === n);
+    });
+  }
+
+  function showStep2(idx){
+    var cat = categories[idx];
+    document.getElementById('diag-cat-name').textContent = cat.name + 'でよくある困りごと';
+    var list = document.getElementById('pain-list');
+    list.innerHTML = '';
+    cat.pains.forEach(function(p){
+      var btn = document.createElement('button');
+      btn.className = 'pain-btn';
+      btn.innerHTML = '<span>' + p.q + '</span>';
+      btn.addEventListener('click', function(){ showStep3(cat.name, p); });
+      list.appendChild(btn);
+    });
+    setStep(2);
+  }
+
+  function showStep3(catName, pain){
+    document.getElementById('proposal-pain').textContent = catName + ' /「' + pain.q + '」への提案';
+    document.getElementById('proposal-solution').textContent = pain.solution;
+    document.getElementById('proposal-desc').textContent = pain.desc;
+
+    var uses = document.getElementById('proposal-uses');
+    uses.innerHTML = '';
+    pain.uses.forEach(function(u){
+      var b = document.createElement('span');
+      b.className = 'badge';
+      b.textContent = u;
+      uses.appendChild(b);
+    });
+
+    var subject = encodeURIComponent('【カタチラボ FOOTBALL】相談: ' + pain.solution);
+    var body = encodeURIComponent(
+      catName + 'のチームです。\n「' + pain.q + '」で困っています。\n' +
+      '提案いただいた「' + pain.solution + '」について詳しく聞きたいです。\n\n' +
+      '― クラブ名:\n― お名前:\n― ご連絡先:\n'
+    );
+    document.getElementById('proposal-mailto').href =
+      'mailto:tabatatsu109@gmail.com?subject=' + subject + '&body=' + body;
+    setStep(3);
+  }
+
+  document.getElementById('back-to-1').addEventListener('click', function(){ setStep(1); });
+  document.getElementById('back-to-2').addEventListener('click', function(){ setStep(2); });
+  document.getElementById('restart-diag').addEventListener('click', function(){ setStep(1); });
+
+  setStep(1);
+})();
+</script>
+
+<!-- ========== 選ばれる理由 ========== -->
+<section id="why">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">WHY</div>
+      <h2 class="section-title">なぜ、現場で使えるのか。</h2>
+    </div>
+    <div class="features">
+      <div class="feature">
+        <div class="fnum">01</div>
+        <h3>作った人間が、現場に立っている</h3>
+        <p>現役のジュニアユース監督が開発しています。自分のクラブで毎週使い、使いにくかったところを次の週に直す。その繰り返しで作られています。</p>
+      </div>
+      <div class="feature">
+        <div class="fnum">02</div>
+        <h3>グラウンドで、スマホで動く</h3>
+        <p>PCの前に座らないと使えないものは、現場では使われません。全部スマホから使えます。スカウティングは電波の届かない会場でも動きます。</p>
+      </div>
+      <div class="feature">
+        <div class="fnum">03</div>
+        <h3>1つから始めて、増やせる</h3>
+        <p>最初から全部そろえる必要はありません。いちばん困っているところを1つ置き換えて、効いた実感があってから次を足す。途中でやめることもできます。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 料金 ========== -->
+<section id="pricing" class="grid-bg">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">PRICING</div>
+      <h2 class="section-title">料金</h2>
+      <p class="section-sub">単品で入れることも、まとめて入れることもできます。金額はクラブの規模に応じてお見積りします。</p>
+    </div>
+
+    <!-- ★要確認: 下の表の金額はすべて目安（本体LPの価格帯からの仮置き）。確定額に差し替えること -->
+    <div class="price-table">
+      <div class="price-row">
+        <div class="price-name">マッチプランナー<small>ホームページ制作＋クラブ運営</small></div>
+        <div class="price-init"><b>初期</b>10〜30万円</div>
+        <div class="price-month"><b>月額</b>5,000円〜</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">トレーニングマッチ作成<small>練習試合・大会の組み立て</small></div>
+        <div class="price-init"><b>初期</b>5〜15万円</div>
+        <div class="price-month"><b>月額</b>5,000円〜</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">3D戦術ボード<small>8人制・11人制対応</small></div>
+        <div class="price-init"><b>初期</b>お見積り</div>
+        <div class="price-month"><b>月額</b>お見積り</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">スカウティングシステム<small>GENSEKI XI</small></div>
+        <div class="price-init"><b>初期</b>お見積り</div>
+        <div class="price-month"><b>月額</b>スカウト人数に応じて</div>
+      </div>
+      <div class="price-row">
+        <div class="price-name">選手コンディション管理<small>FISICA</small></div>
+        <div class="price-init"><b>初期</b>お見積り</div>
+        <div class="price-month"><b>月額</b>選手人数に応じて</div>
+      </div>
+    </div>
+
+    <div class="pack">
+      <div class="pack-tag">FOOTBALL PACK</div>
+      <div class="pack-name">5つまとめて、ひとつの月額で。</div>
+      <div class="pack-price">
+        <!-- ★要確認: パック価格は仮 -->
+        <span class="num">月額 15,000</span><span class="unit">円〜（初期費用は別途お見積り）</span>
+      </div>
+      <p>
+        月曜の日程調整から日曜のホームページ更新まで、一週間ぶんをまとめて置き換えます。
+        途中で使わないものが出てきたら、外して減額もできます。縛りの期間はありません。
+      </p>
+    </div>
+
+    <p class="price-note">
+      ※ 金額はすべて目安です。カテゴリ数・選手数・必要な機能によって変わります。正確なお見積りは、ヒアリングのうえ無料でお出しします。<br>
+      ※ ここに無いもの（会計、集金、当番表、遠征の収支など）も作れます。その場合は
+      <a href="../">カタチラボ本体</a>のほうでご相談ください。
+    </p>
+  </div>
+</section>
+
+<!-- ========== 導入の流れ ========== -->
+<section id="flow">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">FLOW</div>
+      <h2 class="section-title">相談から、使いはじめるまで</h2>
+    </div>
+    <div class="flow">
+      <div class="flow-row">
+        <div class="flow-num">01</div>
+        <div class="flow-body">
+          <h3>まず聞かせてください</h3>
+          <p>いま何にいちばん時間を取られているか。オンラインでも、グラウンドに伺っても構いません。相談とお見積りは無料です。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">02</div>
+        <div class="flow-body">
+          <h3>どれから入れるか決める</h3>
+          <p>5つ全部をすすめることはしません。いちばん効くところを1つか2つ選んで、そこから始めます。作らないほうがいい、とお伝えすることもあります。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">03</div>
+        <div class="flow-body">
+          <h3>クラブに合わせて設定する</h3>
+          <p>カテゴリ、選手名簿、大会の形式など、そのクラブの実情に合わせて用意します。既存のExcelがあれば、そのまま取り込みます。</p>
+        </div>
+      </div>
+      <div class="flow-row">
+        <div class="flow-num">04</div>
+        <div class="flow-body">
+          <h3>使いながら直していく</h3>
+          <p>納品して終わりにはしません。使ってみて合わないところは、月額の中で直します。要望はそのまま次の改良になります。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">FAQ</div>
+      <h2 class="section-title">よくある質問</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>5つ全部入れないといけませんか？</summary>
+        <div class="a">いいえ。1つからで大丈夫です。むしろ、いちばん困っているところを1つだけ置き換えて、効いた実感があってから次を足すことをおすすめしています。使わないものが出てきたら外して減額もできます。</div>
+      </details>
+      <details>
+        <summary>コーチが機械に強くありません。使いこなせますか？</summary>
+        <div class="a">全部スマホから使えるように作っています。LINEを使えるくらいの操作でひととおり回るのが基準です。導入時には実際の画面を一緒に触りながらご説明しますし、その後の質問も月額の中で受けています。</div>
+      </details>
+      <details>
+        <summary>いまExcelで管理しているデータはどうなりますか？</summary>
+        <div class="a">そのまま取り込めます。選手名簿、対戦相手のリスト、過去の戦績など、お持ちのExcelをお送りいただければこちらで移します。ゼロから入力し直していただくことはありません。</div>
+      </details>
+      <details>
+        <summary>グラウンドは電波が悪いのですが、使えますか？</summary>
+        <div class="a">スカウティングシステムは端末の中にデータを保存するので、圏外でも完全に動きます。電波が戻ったときに同期します。他のツールも、入力そのものは短時間で終わるように作っています。</div>
+      </details>
+      <details>
+        <summary>すでに他の業者にホームページを頼んでいます</summary>
+        <div class="a">お引っ越しもお手伝いしています。今のページの内容を移し、ドメインもそのまま引き継げます。現在の契約内容を教えていただければ、切り替えのタイミングも含めてご案内します。</div>
+      </details>
+      <details>
+        <summary>選手のデータを預けることになりますが、安全ですか？</summary>
+        <div class="a">コンディション管理やスカウティングで扱う情報は、個人が特定できるものです。閲覧できる人を役割ごとに分け、必要な人だけが見られるようにしています。取り扱いの範囲は導入前に書面で確認します。</div>
+      </details>
+      <details>
+        <summary>途中でやめられますか？</summary>
+        <div class="a">やめられます。縛りの期間はありません。それまでに貯めたデータは、書き出してお渡しします。</div>
+      </details>
+      <details>
+        <summary>ここに無い機能もお願いできますか？</summary>
+        <div class="a">できます。会計、集金の管理、当番表、遠征の収支、弁当の発注など、クラブ周りのものはひととおり作ってきました。サッカーに限らないものは<a href="../">カタチラボ本体</a>のほうでご相談ください。</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CTA ========== -->
+<section id="contact" class="cta-block">
+  <div class="wrap">
+    <h2 class="serif">その一週間、<br>もっと軽くできます。</h2>
+    <p>
+      初回のご相談・お見積りは無料です。<br>
+      「うちの場合はどうか」だけでも構いません。作らないほうがいい、とお伝えすることもあります。
+    </p>
+    <div class="cta-ctas">
+      <a class="btn-primary" href="mailto:tabatatsu109@gmail.com?subject=%E3%80%90%E3%82%AB%E3%82%BF%E3%83%81%E3%83%A9%E3%83%9C%20FOOTBALL%E3%80%91%E3%81%94%E7%9B%B8%E8%AB%87&amp;body=%E2%80%95%20%E3%82%AF%E3%83%A9%E3%83%96%E5%90%8D%3A%0A%E2%80%95%20%E3%82%AB%E3%83%86%E3%82%B4%E3%83%AA%3A%0A%E2%80%95%20%E3%81%8A%E5%90%8D%E5%89%8D%3A%0A%E2%80%95%20%E3%81%94%E9%80%A3%E7%B5%A1%E5%85%88%3A%0A%E2%80%95%20%E3%81%84%E3%81%BE%E5%9B%B0%E3%81%A3%E3%81%A6%E3%81%84%E3%82%8B%E3%81%93%E3%81%A8%3A%0A">メールで相談する</a>
+      <a class="btn-ghost" href="#diagnose">まず診断してみる</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  カタチラボ FOOTBALL &mdash; サッカーの現場を、もっとシンプルに。<br>
+  <a class="foot-back" href="../">← カタチラボ（業種を問わないシステム開発）へ</a>
+</footer>
+
+<script>
+/* ============================================================
+   スクロールに合わせた動き
+
+   考え方は本体LPと同じ:
+   - 中身を隠すのは、この JS が動いたときだけ。
+     JSが止まっている環境では、最初から全部見えている。
+   - 「動きを減らす」設定の人には、いっさい動かさない。
+   - 一度出たら、それきり。
+   ============================================================ */
+(function(){
+  /* --- サービスカードの「これだけ相談する」を mailto にする ---
+     JSが動かないときは href="#contact" のままなので、CTAには届く */
+  document.querySelectorAll('[data-svc]').forEach(function(a){
+    var name = a.dataset.svc;
+    var subject = encodeURIComponent('【カタチラボ FOOTBALL】相談: ' + name);
+    var body = encodeURIComponent(
+      '「' + name + '」について詳しく聞きたいです。\n\n' +
+      '― クラブ名:\n― カテゴリ:\n― お名前:\n― ご連絡先:\n― いま困っていること:\n'
+    );
+    a.href = 'mailto:tabatatsu109@gmail.com?subject=' + subject + '&body=' + body;
+  });
+
+  var reduce = window.matchMedia &&
+               window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce || !('IntersectionObserver' in window)) return;
+
+  document.documentElement.classList.add('js-anim');
+
+  var GROUPS = [
+    { sel: '.section-head',    stagger: false },
+    { sel: '.swap',            stagger: false },
+    { sel: '.week-row',        stagger: false },
+    { sel: '.week-foot',       stagger: false },
+    { sel: '.svc',             stagger: false },
+    { sel: '.cost-panel',      stagger: false },
+    { sel: '.cost-result',     stagger: false },
+    { sel: '.cost-col',        stagger: true  },
+    { sel: '.cost-payback',    stagger: false },
+    { sel: '.feature',         stagger: true  },
+    { sel: '.price-table',     stagger: false },
+    { sel: '.pack',            stagger: false },
+    { sel: '.flow-row',        stagger: true  },
+    { sel: '.faq',             stagger: false },
+    { sel: '.cta-block .wrap', stagger: false }
+  ];
+  var counts = new Map();
+  GROUPS.forEach(function(g){
+    document.querySelectorAll(g.sel).forEach(function(el){
+      el.classList.add('reveal');
+      if (!g.stagger) return;
+      var parent = el.parentElement;
+      var n = counts.get(parent) || 0;
+      el.setAttribute('data-delay', String(n % 3));
+      counts.set(parent, n + 1);
+    });
+  });
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      e.target.classList.add('shown');
+      io.unobserve(e.target);
+    });
+  }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* 保険。判定が働かなくても、中身が消えたままにはしない */
+  setTimeout(function(){
+    document.querySelectorAll('.reveal:not(.shown)').forEach(function(el){
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight * 1.5) el.classList.add('shown');
+    });
+  }, 8000);
+
+  /* ヒーローの下線は、読み込み直後に伸ばす */
+  var hero = document.querySelector('.hero');
+  if (hero) requestAnimationFrame(function(){ hero.classList.add('shown'); });
+})();
+</script>
+
+</body>
+</html>
